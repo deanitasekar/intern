@@ -5,8 +5,8 @@ import Image from 'next/image';
 const Testimonials = () => {
 	return (
 		<section id="testimonials" className="bg-black bg-cover bg-center bg-no-repeat min-h-screen">
-			<div className="max-w-5xl px-4 py-8 mx-auto my-12">
-				<div className="text-center max-w-3xl mx-auto">
+			<div className="max-w-5xl px-4 py-8 mx-auto">
+				<div className="text-center max-w-3xl mx-auto my-12">
 					<h2 className="mb-4 text-4xl font-bold md:text-5xl xl:text-5xl text-white items-center text-center relative">
 						Testimonials
 					</h2>

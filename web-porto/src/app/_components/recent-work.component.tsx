@@ -19,13 +19,13 @@ const RecentWork = () => {
 				</div>
 
 				<div className="relative">
-					<button className="absolute -left-28 top-1/2 transform -translate-y-1/2 z-10 bg-white border border-gray-300 rounded-full w-10 h-10 flex items-center justify-center hover:bg-gray-50">
+					<button className="hidden xl:flex absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-12 z-10 bg-white border border-gray-300 rounded-full w-10 h-10 items-center justify-center hover:bg-gray-50">
 						<svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
 						</svg>
 					</button>
 					
-					<button className="absolute -right-28 top-1/2 transform -translate-y-1/2 z-10 bg-white border border-gray-300 rounded-full w-10 h-10 flex items-center justify-center hover:bg-gray-50">
+					<button className="hidden xl:flex absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-12 z-10 bg-white border border-gray-300 rounded-full w-10 h-10 items-center justify-center hover:bg-gray-50">
 						<svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
 						</svg>

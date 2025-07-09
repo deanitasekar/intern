@@ -3,8 +3,8 @@
 const GetInTouch = () => {
 	return (
 		<section id="get-in-touch" className="bg-black bg-cover bg-center bg-no-repeat min-h-screen">
-			<div className="grid max-w-5xl px-4 py-8 mx-auto my-12 items-center">
-				<div className="text-center max-w-3xl mx-auto">
+			<div className="grid max-w-5xl px-4 py-8 mx-auto items-center">
+				<div className="text-center max-w-3xl mx-auto my-12">
 
 					<h2 className="mb-4 text-4xl font-bold md:text-5xl xl:text-5xl text-white items-center text-center relative">
 						Get In Touch
