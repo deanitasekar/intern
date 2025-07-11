@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter App</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+	<div class="container">
+		<h1 class="header">
+			Counter App
+		</h1>
+
+		<div class="counter">
+			<p id="result">
+				0
+			</p>
+		</div>
+
+		<div>
+			<button class="dec-btn" onClick="decrement()">
+				-
+			</button>
+
+			<button class="res-btn" onClick="reset()">
+				Reset
+			</button>
+
+			<button class="inc-btn" onClick="increment()">
+				+
+			</button>
+		</div>
+	</div>
+    
+</body>
+
+	<script>
+		let count = 0;
+		let result = document.getElementById("result");
+
+		function increment() {
+			count = count + 1;
+			result.innerText = count;
+		}
+
+		function decrement() {
+			count = count - 1;
+			result.innerText = count;
+		}
+
+		function reset() {
+			count = 0;
+			result.innerText = count;
+		}
+
+		document.addEventListener('keydown', function(event) {
+			const keypress = event.key.toLowerCase();
+
+			switch(keypress) {
+				case 'r':
+					reset();
+					break;
+				case 'arrowup':
+					increment();
+					break;
+				case 'arrowdown':
+					decrement();
+					break;
+			}
+		});
+
+	</script>
+</html>
