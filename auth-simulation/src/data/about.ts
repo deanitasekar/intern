@@ -1,0 +1,107 @@
+export const reviewsData = [
+  {
+    "name": "Ayu Pratiwi",
+    "role": "Freelance Designer",
+    "review": "GoApp really helped me stay organized. I love how fast and clean the interface is. Signing in is super smooth!",
+    "rating": 5,
+    "date": "2025-07-15"
+  },
+  {
+    "name": "Riko Santoso",
+    "role": "Startup Founder",
+    "review": "I use GoApp daily to manage my team’s workflow. Authentication is secure and reliable, and the dashboard is super intuitive.",
+    "rating": 4,
+    "date": "2025-07-14"
+  },
+  {
+    "name": "Siti Nurhaliza",
+    "role": "Student",
+    "review": "As a student, GoApp helps me track assignments and tasks easily. The UI is so friendly!",
+    "rating": 5,
+    "date": "2025-07-13"
+  },
+  {
+    "name": "Bayu Ramadhan",
+    "role": "Remote Developer",
+    "review": "Love the simplicity! It just works — fast login, clean layout, and very useful quick actions.",
+    "rating": 4,
+    "date": "2025-07-13"
+  },
+  {
+    "name": "Dina Kusuma",
+    "role": "Content Creator",
+    "review": "I appreciate how responsive the app is. Whether I’m on mobile or desktop, GoApp works perfectly.",
+    "rating": 5,
+    "date": "2025-07-12"
+  },
+  {
+    "name": "Teguh Mahendra",
+    "role": "Project Manager",
+    "review": "Easy to onboard my team. Everyone instantly understood how to use the app, even with minimal instruction.",
+    "rating": 5,
+    "date": "2025-07-11"
+  },
+  {
+    "name": "Citra Handayani",
+    "role": "High School Teacher",
+    "review": "I use GoApp to manage class activities and reminders. It’s been very helpful in keeping me on track.",
+    "rating": 4,
+    "date": "2025-07-10"
+  },
+  {
+    "name": "Fajar Nugroho",
+    "role": "Backend Engineer",
+    "review": "The authentication system with JWT is solid. Login and refresh tokens work seamlessly.",
+    "rating": 5,
+    "date": "2025-07-09"
+  },
+  {
+    "name": "Melati Dewi",
+    "role": "Marketing Executive",
+    "review": "Clean dashboard, fast loading, and no unnecessary features. That’s what makes GoApp great.",
+    "rating": 5,
+    "date": "2025-07-09"
+  },
+  {
+    "name": "Ilham Putra",
+    "role": "Mobile Developer",
+    "review": "Responsive design and good performance even on older devices. Super efficient.",
+    "rating": 4,
+    "date": "2025-07-08"
+  },
+  {
+    "name": "Nina Rachmawati",
+    "role": "UI/UX Designer",
+    "review": "Aesthetically pleasing and easy to navigate. I love the pastel accent colors!",
+    "rating": 5,
+    "date": "2025-07-07"
+  },
+  {
+    "name": "Aditya Saputra",
+    "role": "College Student",
+    "review": "GoApp helps me track deadlines for assignments and group projects. Really helpful!",
+    "rating": 5,
+    "date": "2025-07-06"
+  },
+  {
+    "name": "Retno Wulandari",
+    "role": "Small Business Owner",
+    "review": "I use GoApp to keep track of tasks for my business. Simple, effective, and secure.",
+    "rating": 4,
+    "date": "2025-07-05"
+  },
+  {
+    "name": "Andi Prasetyo",
+    "role": "Fullstack Developer",
+    "review": "Using GoApp in dark mode feels super comfortable. Great job on accessibility too.",
+    "rating": 5,
+    "date": "2025-07-04"
+  },
+  {
+    "name": "Laras Ayuningtyas",
+    "role": "Community Organizer",
+    "review": "Great for planning events and tracking volunteers’ tasks. Would recommend it to others.",
+    "rating": 5,
+    "date": "2025-07-03"
+  }
+]
