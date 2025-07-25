@@ -1,50 +1,26 @@
 "use client";
 
-import React, { useState } from "react";
-import { Container, Typography, Box, Button, Paper } from "@mui/material";
+import React from "react";
+import { Container, Typography, Box, Button, Paper, Alert } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
-import { useRouter } from "next/navigation";
 import { MarkdownEditor } from "../../../components/editor.component";
-import { useArticle } from "../../../hooks/use-article.hook";
+import { useCreate } from "../_hooks/create.hook";
 
 export const CreateMain: React.FC = () => {
-  const router = useRouter();
-  const { addArticle } = useArticle();
-
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [content, setContent] = useState(
-    "# Article Title\n\nWrite your article content here..."
-  );
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleSave = async () => {
-    if (!title.trim() || !content.trim()) {
-      return;
-    }
-
-    setIsLoading(true);
-
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      addArticle({
-        title: title.trim(),
-        description: description.trim(),
-        content: content.trim(),
-      });
-
-      router.push("/");
-    } catch (error) {
-      console.error("Error creating article:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleCancel = () => {
-    router.push("/");
-  };
+  const {
+    title,
+    description,
+    content,
+    isLoading,
+    error,
+    setTitle,
+    setDescription,
+    setContent,
+    handleSave,
+    handleCancel,
+    handleBack,
+    handleCloseError,
+  } = useCreate();
 
   return (
     <Container maxWidth="lg">
@@ -52,7 +28,7 @@ export const CreateMain: React.FC = () => {
         <Box sx={{ mb: 3, display: "flex", alignItems: "center", gap: 2 }}>
           <Button
             startIcon={<ArrowBack />}
-            onClick={() => router.back()}
+            onClick={handleBack}
             sx={{
               color: "text.secondary",
               "&:hover": { backgroundColor: "rgba(0,0,0,0.04)" },
@@ -62,10 +38,23 @@ export const CreateMain: React.FC = () => {
           </Button>
         </Box>
 
+        {error && (
+          <Box sx={{ mb: 3 }}>
+            <Alert 
+              severity="error" 
+              onClose={handleCloseError}
+              sx={{ mb: 2 }}
+            >
+              {error}
+            </Alert>
+          </Box>
+        )}
+
         <Paper sx={{ p: 4 }}>
-          <Typography variant="h3" component="h1" align="center">
+          <Typography variant="h3" component="h1" align="center" sx={{ mb: 4 }}>
             Create New Article
           </Typography>
+          
           <MarkdownEditor
             title={title}
             description={description}

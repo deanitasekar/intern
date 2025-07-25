@@ -11,14 +11,13 @@ import {
   Button,
 } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { MarkdownEditor } from "@/components/editor.component";
-import { useEditArticle } from "../_hooks/edit-hook";
+import { useEditArticle } from "../_hooks/edit.hook";
 import { notFound } from "next/navigation";
 
 export default function EditArticlePage() {
   const params = useParams();
-  const router = useRouter();
   const articleId = params.id as string;
 
   const {
@@ -29,14 +28,17 @@ export default function EditArticlePage() {
     isLoading,
     showSuccess,
     isInitialized,
+    error,
     setTitle,
     setDescription,
     setContent,
     handleSave,
     handleCancel,
+    handleBack,
+    handleCloseError,
   } = useEditArticle({ articleId });
 
-  if (!article) {
+  if (isInitialized && !article) {
     notFound();
   }
 
@@ -45,7 +47,7 @@ export default function EditArticlePage() {
       <Container maxWidth="md" sx={{ py: 2 }}>
         <Box sx={{ textAlign: "center", py: 8 }}>
           <Typography variant="body1" color="text.secondary">
-            Loading...
+            Loading article...
           </Typography>
         </Box>
       </Container>
@@ -70,13 +72,21 @@ export default function EditArticlePage() {
         </Fade>
       )}
 
+      {error && (
+        <Box sx={{ mb: 3 }}>
+          <Alert severity="error" onClose={handleCloseError} sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        </Box>
+      )}
+
       <Fade in timeout={400}>
         <Box sx={{ mb: 4 }}>
           <Fade in timeout={1000}>
             <Box sx={{ mt: 4 }}>
               <Button
                 startIcon={<ArrowBack />}
-                onClick={() => router.back()}
+                onClick={handleBack}
                 sx={{
                   color: "text.secondary",
                   "&:hover": { backgroundColor: "rgba(0,0,0,0.04)" },
@@ -91,9 +101,10 @@ export default function EditArticlePage() {
 
       <Fade in timeout={800}>
         <Paper sx={{ p: 4 }}>
-          <Typography variant="h3" component="h1" align="center">
-            Create Article
+          <Typography variant="h3" component="h1" align="center" sx={{ mb: 4 }}>
+            Edit Article
           </Typography>
+
           <MarkdownEditor
             title={title}
             description={description}

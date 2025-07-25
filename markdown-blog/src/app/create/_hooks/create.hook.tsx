@@ -9,21 +9,18 @@ interface UseCreateReturn {
   content: string;
   isLoading: boolean;
   error: string;
-
   setTitle: (title: string) => void;
   setDescription: (description: string) => void;
   setContent: (content: string) => void;
-
   handleSave: () => Promise<void>;
   handleCancel: () => void;
+  handleBack: () => void;
   handleCloseError: () => void;
-
   isFormValid: boolean;
   hasUnsavedChanges: boolean;
 }
 
-const DEFAULT_CONTENT =
-  "Tulis konten artikel Anda di sini...";
+const DEFAULT_CONTENT = "# Article Title\n\nWrite your article content here...";
 
 export const useCreate = (): UseCreateReturn => {
   const router = useRouter();
@@ -72,20 +69,16 @@ export const useCreate = (): UseCreateReturn => {
 
       const articleData: CreateArticleInput = {
         title: title.trim(),
-        description: description.trim() || "Tidak ada deskripsi",
+        description: description.trim() || "No description provided",
         content: content.trim(),
       };
-      console.log(articleData);
 
       addArticle(articleData);
-      console.log(localStorage.getItem("blog"));
 
-      setTimeout(() => {
-        router.push("/");
-      }, 1500);
+      router.push("/");
     } catch (error) {
       console.error("Error creating article:", error);
-      setError("Failed to save the article");
+      setError("Failed to save the article. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -101,6 +94,16 @@ export const useCreate = (): UseCreateReturn => {
     router.push("/");
   };
 
+  const handleBack = (): void => {
+    if (hasUnsavedChanges) {
+      const confirmed = window.confirm(
+        "You have unsaved changes. Are you sure you want to go back?"
+      );
+      if (!confirmed) return;
+    }
+    router.back();
+  };
+
   const handleCloseError = (): void => {
     setError("");
   };
@@ -111,15 +114,13 @@ export const useCreate = (): UseCreateReturn => {
     content,
     isLoading,
     error,
-
     setTitle,
     setDescription,
     setContent,
-
     handleSave,
     handleCancel,
+    handleBack,
     handleCloseError,
-
     isFormValid,
     hasUnsavedChanges,
   };
