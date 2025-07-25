@@ -11,6 +11,7 @@ interface UseLoginReturn {
   handleSubmit: (e: React.FormEvent) => Promise<void>;
   setFormData: React.Dispatch<React.SetStateAction<AuthRequest>>;
   clearError: () => void;
+  fillDummyCredentials: () => void;
 }
 
 export const useLogin = (): UseLoginReturn => {
@@ -50,6 +51,14 @@ export const useLogin = (): UseLoginReturn => {
     setError("");
   };
 
+  const fillDummyCredentials = () => {
+    setFormData({
+      username: "user",
+      password: "pass",
+    });
+    setError("");
+  };
+
   return {
     formData,
     error,
@@ -58,6 +67,7 @@ export const useLogin = (): UseLoginReturn => {
     handleSubmit,
     setFormData,
     clearError,
+    fillDummyCredentials,
   };
 };
 

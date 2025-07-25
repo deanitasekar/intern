@@ -1,44 +1,25 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { useAuth } from "@/hooks/use-auth.hook";
-import getErrorMessage from "@/utils/error.util";
-
-type Inputs = {
-  username: string;
-  email: string;
-  password: string;
-};
+import { useRegister } from "../_hooks/register.hook";
 
 export default function RegisterMain() {
-  const [error, setError] = useState("");
-  const { register: registerUser } = useAuth();
-
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<Inputs>();
-
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    setError("");
-
-    try {
-      await registerUser(data);
-    } catch (err) {
-      setError(getErrorMessage(err));
-    }
-  };
+    error,
+    onSubmit,
+  } = useRegister();
 
   return (
     <div className="min-h-screen py-10 bg-gray-50 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md mx-auto">
         <div className="text-center mb-8">
-          <h2 className="mt-6 text-3xl font-bold text-gray-900">
+          <h1 className="mt-6 text-3xl font-bold text-gray-900">
             Create your account
-          </h2>
+          </h1>
           <p className="mt-2 text-sm text-gray-600">
             Already have an account?{" "}
             <Link

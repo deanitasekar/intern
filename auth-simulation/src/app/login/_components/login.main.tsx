@@ -1,58 +1,25 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { useAuth } from "@/hooks/use-auth.hook";
-import getErrorMessage from "@/utils/error.util";
+import { useLogin } from "../_hooks/use-login.hook";
 
 export default function LoginMain() {
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
-  const [error, setError] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const { login } = useAuth();
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-    if (error) setError("");
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setIsSubmitting(true);
-
-    try {
-      await login(formData);
-    } catch (err) {
-      setError(getErrorMessage(err));
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const fillDummyCredentials = () => {
-    setFormData({
-      username: "user",
-      password: "pass",
-    });
-    setError("");
-  };
+  const {
+    formData,
+    error,
+    isSubmitting,
+    handleChange,
+    handleSubmit,
+    fillDummyCredentials,
+  } = useLogin();
 
   return (
     <div className="min-h-screen py-10 bg-gray-50 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md mx-auto">
         <div className="text-center mb-8">
-          <h2 className="mt-6 text-3xl font-bold text-gray-900">
+          <h1 className="mt-6 text-3xl font-bold text-gray-900">
             Sign in to your account
-          </h2>
+          </h1>
           <p className="mt-2 text-sm text-gray-600">
             Or{" "}
             <Link

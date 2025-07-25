@@ -2,48 +2,40 @@ import useAuth from "@/hooks/use-auth.hook";
 import { RegisterRequest } from "@/types/auth.type";
 import getErrorMessage from "@/utils/error.util";
 import { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+
+type RegisterFormInputs = {
+  username: string;
+  email: string;
+  password: string;
+};
 
 interface UseRegisterReturn {
-  formData: RegisterRequest;
+  register: any;
+  handleSubmit: any;
+  formState: { errors: any; isSubmitting: boolean };
   error: string;
-  isSubmitting: boolean;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSubmit: (e: React.FormEvent) => Promise<void>;
-  setFormData: React.Dispatch<React.SetStateAction<RegisterRequest>>;
+  onSubmit: SubmitHandler<RegisterFormInputs>;
   clearError: () => void;
 }
 
 export const useRegister = (): UseRegisterReturn => {
-  const [formData, setFormData] = useState<RegisterRequest>({
-    username: "",
-    email: "",
-    password: "",
-  });
   const [error, setError] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { register: registerUser } = useAuth();
 
-  const { register } = useAuth();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterFormInputs>();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-    if (error) setError("");
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit: SubmitHandler<RegisterFormInputs> = async (data) => {
     setError("");
-    setIsSubmitting(true);
 
     try {
-      await register(formData);
-    } catch (err) {
-      setError(getErrorMessage(err));
-    } finally {
-      setIsSubmitting(false);
+      await registerUser(data);
+    } catch (error) {
+      setError(getErrorMessage(error));
     }
   };
 
@@ -52,12 +44,11 @@ export const useRegister = (): UseRegisterReturn => {
   };
 
   return {
-    formData,
-    error,
-    isSubmitting,
-    handleChange,
+    register,
     handleSubmit,
-    setFormData,
+    formState: { errors, isSubmitting },
+    error,
+    onSubmit,
     clearError,
   };
-}
+};

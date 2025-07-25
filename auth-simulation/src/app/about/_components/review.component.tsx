@@ -1,10 +1,8 @@
 "use client";
 
+import { Award, Calendar, Star, Users } from "lucide-react";
 import React from "react";
-import { Star, Users, Award, Calendar } from "lucide-react";
-import UseReview from "../_hooks/use-review.hook";
 import { Review } from "../_types/review.type";
-import { reviewsData } from "@/data/about";
 
 interface StarRatingProps {
   rating: number;
@@ -153,15 +151,21 @@ const ReviewStats: React.FC<ReviewStatsProps> = ({
   );
 };
 
-const ReviewComponent: React.FC = () => {
-  const {
-    reviews,
-    loading,
-    error,
-    getAverageRating,
-    getTotalReviews,
-  } = UseReview();
+interface ReviewComponentProps {
+  reviews: Review[];
+  loading: boolean;
+  error: string | null;
+  averageRating: string;
+  totalReviews: number;
+}
 
+const ReviewComponent: React.FC<ReviewComponentProps> = ({
+  reviews,
+  loading,
+  error,
+  averageRating,
+  totalReviews,
+}) => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -189,8 +193,8 @@ const ReviewComponent: React.FC = () => {
     <div className="min-h-screen">
       <ReviewStats
         reviews={reviews}
-        averageRating={getAverageRating()}
-        totalReviews={getTotalReviews()}
+        averageRating={averageRating}
+        totalReviews={totalReviews}
       />
 
       <div className="py-20 bg-white">
@@ -207,7 +211,7 @@ const ReviewComponent: React.FC = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {reviewsData.map((review, index) => (
+            {reviews.map((review, index) => (
               <ReviewCard key={index} review={review} />
             ))}
           </div>
