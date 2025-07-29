@@ -12,6 +12,7 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
+import Stack from '@mui/material/Stack';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useContext } from 'react';
@@ -21,11 +22,11 @@ export default function HomePage() {
   const router = useRouter();
 
   const handleView = (id: string) => {
-    router.push(`/article/${id}`);
+    router.replace(`/article/${id}`);
   };
 
   const handleEdit = (id: string) => {
-    router.push(`/edit/${id}`);
+    router.replace(`/edit/${id}`);
   };
 
   const handleDelete = (id: string) => {
@@ -37,14 +38,13 @@ export default function HomePage() {
   if (articles === undefined) {
     return (
       <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Box
-          display="flex"
+        <Stack
           justifyContent="center"
           alignItems="center"
           minHeight="60vh"
         >
           <CircularProgress size={40} />
-        </Box>
+        </Stack>
       </Container>
     );
   }
@@ -79,12 +79,12 @@ export default function HomePage() {
             component={Link}
             href="/create"
             variant="contained"
+            color='primary'
             size="large"
             startIcon={<Add />}
             sx={{
               px: 4,
               py: 1.5,
-              borderRadius: 3,
               fontSize: '1rem',
               fontWeight: 600,
               boxShadow: '0 4px 20px rgba(33, 150, 243, 0.3)',
@@ -139,9 +139,9 @@ export default function HomePage() {
           </Box>
 
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
-            {articles.map((article, index) => (
-              <Fade in timeout={600 + index * 100} key={article.id}>
-                <Box sx={{ flex: '1 1 calc(33.333% - 24px)', minWidth: 300 }}>
+            {articles.map((article) => (
+              <Fade in timeout={600} key={article.id}>
+                <Box sx={{ flex: '1 1 calc(33.333% - 24px)', minWidth: 200 }}>
                   <ArticleCard
                     article={article}
                     onView={handleView}

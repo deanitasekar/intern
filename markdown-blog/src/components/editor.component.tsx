@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import {
-  Box,
-  TextField,
-  Button,
-  Paper,
-  Tabs,
-  Tab,
-  Typography,
-} from "@mui/material";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Stack from "@mui/material/Stack";
 import { Save, Cancel } from "@mui/icons-material";
 import ReactMarkdown from "react-markdown";
 
@@ -40,20 +39,116 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
     setTabValue(newValue);
   };
 
+  const markdownComponents = {
+    code: (props: any) => {
+      const { children, inline } = props;
+      return inline ? (
+        <Box 
+          component="code" 
+          sx={{ 
+            bgcolor: "grey.100",
+            color: "primary.main",
+            px: 0.5,
+            py: 0.25,
+            borderRadius: 1,
+            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            fontSize: '0.875rem',
+          }}
+        >
+          {children}
+        </Box>
+      ) : (
+        <code style={{ fontFamily: 'Monaco, Consolas, "Courier New", monospace' }}>
+          {children}
+        </code>
+      );
+    },
+    pre: ({ children }: any) => (
+      <Box 
+        component="pre" 
+        sx={{ 
+          bgcolor: "background.paper",
+          border: 1,
+          borderColor: "divider",
+          borderRadius: 1.5,
+          p: 2,
+          overflow: "auto",
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+          fontSize: '0.875rem',
+          my: 2,
+          boxShadow: 1,
+        }}
+      >
+        {children}
+      </Box>
+    ),
+    h1: ({ children }: any) => (
+      <Typography variant="h1" sx={{ mt: 3, mb: 2 }}>
+        {children}
+      </Typography>
+    ),
+    h2: ({ children }: any) => (
+      <Typography variant="h2" sx={{ mt: 2.5, mb: 1.5 }}>
+        {children}
+      </Typography>
+    ),
+    h3: ({ children }: any) => (
+      <Typography variant="h3" sx={{ mt: 2, mb: 1 }}>
+        {children}
+      </Typography>
+    ),
+    p: ({ children }: any) => (
+      <Typography variant="body1" sx={{ my: 1, lineHeight: 1.8 }}>
+        {children}
+      </Typography>
+    ),
+    blockquote: ({ children }: any) => (
+      <Box
+        component="blockquote"
+        sx={{
+          borderLeft: 4,
+          borderColor: "primary.main",
+          bgcolor: "rgba(33, 150, 243, 0.03)",
+          pl: 2,
+          py: 1.5,
+          my: 2,
+          borderRadius: "0 12px 12px 0",
+          fontStyle: "italic",
+          color: "text.secondary",
+        }}
+      >
+        {children}
+      </Box>
+    ),
+    ul: ({ children }: any) => (
+      <Box component="ul" sx={{ pl: 2.5, my: 1, color: "text.secondary" }}>
+        {children}
+      </Box>
+    ),
+    ol: ({ children }: any) => (
+      <Box component="ol" sx={{ pl: 2.5, my: 1, color: "text.secondary" }}>
+        {children}
+      </Box>
+    ),
+    li: ({ children }: any) => (
+      <Box component="li" sx={{ mb: 0.5 }}>
+        {children}
+      </Box>
+    ),
+  };
+
   return (
-    <Box sx={{ p: 4 }}>
+    <Stack spacing={3}>
       <TextField
         fullWidth
         label="Title"
         value={title}
         onChange={(e) => onTitleChange(e.target.value)}
-        margin="normal"
         variant="outlined"
         size="medium"
         sx={{
-          mb: 3,
           "& .MuiOutlinedInput-root": {
-            borderRadius: 2,
+            borderRadius: 1.5,
             fontSize: "1.1rem",
             fontWeight: 500,
           },
@@ -65,21 +160,25 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
         label="Description"
         value={description}
         onChange={(e) => onDescriptionChange(e.target.value)}
-        margin="normal"
         variant="outlined"
         multiline
         rows={2}
         size="medium"
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            borderRadius: 1.5,
+          },
+        }}
       />
 
-      <Box sx={{ borderBottom: 1, borderColor: "divider", mt: 3 }}>
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={tabValue} onChange={handleTabChange}>
           <Tab label="Editor" />
           <Tab label="Preview" />
         </Tabs>
       </Box>
 
-      <Box sx={{ mt: 2 }}>
+      <Box>
         {tabValue === 0 ? (
           <TextField
             fullWidth
@@ -89,155 +188,72 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
             multiline
             rows={20}
             variant="outlined"
-            placeholder="Tulis konten Markdown di sini..."
+            placeholder="Write your content"
             sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: 1.5,
+              },
               "& .MuiInputBase-input": {
                 fontFamily: 'Monaco, Consolas, "Courier New", monospace',
-                fontSize: "14px",
+                fontSize: "0.875rem",
+                lineHeight: 1.5,
               },
             }}
           />
         ) : (
           <Paper
+            elevation={1}
             sx={{
               p: 3,
               minHeight: 500,
               maxHeight: 600,
               overflow: "auto",
-              border: "1px solid #e0e0e0",
+              borderRadius: 1.5,
+              border: 1,
+              borderColor: "divider",
             }}
           >
-            <ReactMarkdown
-              components={{
-                code: ({
-                  inline,
-                  className,
-                  children,
-                  ...props
-                }: React.DetailedHTMLProps<
-                  React.HTMLAttributes<HTMLElement>,
-                  HTMLElement
-                > & { inline?: boolean }) => (
-                  <code
-                    style={{
-                      backgroundColor: inline ? "#f5f5f5" : "transparent",
-                      padding: inline ? "2px 4px" : "0",
-                      borderRadius: inline ? "3px" : "0",
-                      fontFamily: 'Monaco, Consolas, "Courier New", monospace',
-                      fontSize: "14px",
-                    }}
-                    {...props}
-                  >
-                    {children}
-                  </code>
-                ),
-                pre: ({ children }) => (
-                  <pre
-                    style={{
-                      backgroundColor: "#f5f5f5",
-                      padding: "16px",
-                      borderRadius: "4px",
-                      overflow: "auto",
-                      fontFamily: 'Monaco, Consolas, "Courier New", monospace',
-                      fontSize: "14px",
-                      margin: "16px 0",
-                    }}
-                  >
-                    {children}
-                  </pre>
-                ),
-                h1: ({ children }) => (
-                  <Typography variant="h1" sx={{ margin: "24px 0 16px 0" }}>
-                    {children}
-                  </Typography>
-                ),
-                h2: ({ children }) => (
-                  <Typography variant="h2" sx={{ margin: "20px 0 12px 0" }}>
-                    {children}
-                  </Typography>
-                ),
-                h3: ({ children }) => (
-                  <Typography variant="h3" sx={{ margin: "16px 0 8px 0" }}>
-                    {children}
-                  </Typography>
-                ),
-                p: ({ children }) => (
-                  <Typography sx={{ margin: "8px 0", lineHeight: 1.6 }}>
-                    {children}
-                  </Typography>
-                ),
-                blockquote: ({ children }) => (
-                  <blockquote
-                    style={{
-                      borderLeft: "4px solid #ddd",
-                      paddingLeft: "16px",
-                      margin: "16px 0",
-                      fontStyle: "italic",
-                      color: "#666",
-                    }}
-                  >
-                    {children}
-                  </blockquote>
-                ),
-                ul: ({ children }) => (
-                  <ul style={{ paddingLeft: "20px", margin: "8px 0" }}>
-                    {children}
-                  </ul>
-                ),
-                ol: ({ children }) => (
-                  <ol style={{ paddingLeft: "20px", margin: "8px 0" }}>
-                    {children}
-                  </ol>
-                ),
-                li: ({ children }) => (
-                  <li style={{ margin: "4px 0" }}>{children}</li>
-                ),
-              }}
-            >
+            <ReactMarkdown components={markdownComponents as any}>
               {content || "Tidak ada konten untuk ditampilkan"}
             </ReactMarkdown>
           </Paper>
         )}
       </Box>
 
-      <Box
+      <Stack
+        direction="row"
+        spacing={2}
+        justifyContent="flex-end"
         sx={{
-          mt: 4,
-          pt: 3,
-          borderTop: "1px solid",
+          pt: 2,
+          borderTop: 1,
           borderColor: "divider",
-          display: "flex",
-          gap: 2,
-          justifyContent: "flex-end",
         }}
       >
         <Button
-          variant="text"
+          variant="contained"
+          color="primary"
           startIcon={<Save />}
           onClick={onSave}
           disabled={isLoading || !title.trim() || !content.trim()}
           size="large"
           sx={{
-            borderRadius: 2,
+            borderRadius: 3,
             textTransform: "none",
             fontWeight: 500,
             px: 3,
-            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-            "&:hover": {
-              boxShadow: "0 6px 16px rgba(0, 0, 0, 0.2)",
-            },
           }}
         >
-          {isLoading ? "Saving..." : "Save"}
+          {isLoading ? "Saving" : "Save"}
         </Button>
         <Button
-          variant="contained"
+          variant="outlined"
           startIcon={<Cancel />}
           onClick={onCancel}
           disabled={isLoading}
           size="large"
           sx={{
-            borderRadius: 2,
+            borderRadius: 3,
             textTransform: "none",
             fontWeight: 500,
             px: 3,
@@ -245,7 +261,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
         >
           Cancel
         </Button>
-      </Box>
-    </Box>
+      </Stack>
+    </Stack>
   );
 };

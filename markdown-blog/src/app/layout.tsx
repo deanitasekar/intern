@@ -1,20 +1,9 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import ThemeProvider from "@/theme/ThemeProvider";
 import { NavBar } from "@/components/navbar.component";
-import { Container } from "@mui/material";
 import ArticleProvider from "@/contexts/article.context";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import ThemeProvider from "@/theme/ThemeProvider";
+import { Container } from "@mui/material";
+import type { Metadata } from "next";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -27,14 +16,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="id" suppressHydrationWarning>
+      <body>
         <ThemeProvider>
           <ArticleProvider>
-          <NavBar />
-          <Container maxWidth="lg" sx={{ py: 4 }}>
-            {children}
-          </Container>
+            <NavBar />
+            <Container maxWidth="lg" sx={{ py: 4 }}>
+              {children}
+            </Container>
           </ArticleProvider>
         </ThemeProvider>
       </body>

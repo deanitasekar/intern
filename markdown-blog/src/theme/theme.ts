@@ -36,6 +36,10 @@ const theme = createTheme({
       primary: "#333333",
       secondary: "#666666",
     },
+    error: {
+      main: "#ff3939ff",
+      contrastText: "#fff",
+    },
     divider: "#E0E0E0",
   },
   typography: {
@@ -59,10 +63,10 @@ const theme = createTheme({
       color: "#333333",
     },
     h4: {
-      fontSize: '1.25rem',
+      fontSize: "1.25rem",
       fontWeight: 500,
       lineHeight: 1.4,
-      color: '#333333',
+      color: "#333333",
     },
     body1: {
       fontSize: "1rem",
@@ -117,26 +121,14 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 8,
+          borderRadius: "24px",
           padding: "8px 24px",
           fontSize: "0.875rem",
           fontWeight: 500,
           textTransform: "none",
           boxShadow: "none",
           "&:hover": {
-            boxShadow: "0 4px 12px rgba(33, 150, 243, 0.3)",
-          },
-        },
-        contained: {
-          background: "linear-gradient(135deg, #2196F3 0%, #1976D2 100%)",
-          "&:hover": {
-            background: "linear-gradient(135deg, #1976D2 0%, #1565c0 100%)",
-          },
-        },
-        outlined: {
-          background: "linear-gradient(135deg, #2196F3 0%, #1976D2 100%)",
-          "&:hover": {
-            background: "linear-gradient(135deg, #1976D2 0%, #1565C0 100%)",
+            boxShadow: "0 4px 12px rgba(48, 49, 50, 0.3)",
           },
         },
       },
@@ -145,33 +137,33 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 6,
-          fontSize: '0.75rem',
+          fontSize: "0.75rem",
           fontWeight: 500,
           height: 24,
         },
         filled: {
-          backgroundColor: '#E3F2FD',
-          color: '#1976D2',
+          backgroundColor: "#E3F2FD",
+          color: "#1976D2",
         },
       },
     },
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: '#FFFFFF',
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
-          borderBottom: '1px solid #E0E0E0',
+          backgroundColor: "#FFFFFF",
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
+          borderBottom: "1px solid #E0E0E0",
         },
       },
     },
     MuiContainer: {
       styleOverrides: {
         root: {
-          paddingLeft: '24px',
-          paddingRight: '24px',
-          '@media (min-width: 600px)': {
-            paddingLeft: '32px',
-            paddingRight: '32px',
+          paddingLeft: "24px",
+          paddingRight: "24px",
+          "@media (min-width: 600px)": {
+            paddingLeft: "32px",
+            paddingRight: "32px",
           },
         },
       },
@@ -179,19 +171,19 @@ const theme = createTheme({
     MuiTypography: {
       styleOverrides: {
         gutterBottom: {
-          marginBottom: '16px',
+          marginBottom: "16px",
         },
       },
     },
     MuiLink: {
       styleOverrides: {
         root: {
-          color: '#2196F3',
-          textDecoration: 'none',
-          transition: 'color 0.2s ease-in-out',
-          '&:hover': {
-            color: '#1976D2',
-            textDecoration: 'underline',
+          color: "#2196F3",
+          textDecoration: "none",
+          transition: "color 0.2s ease-in-out",
+          "&:hover": {
+            color: "#1976D2",
+            textDecoration: "underline",
           },
         },
       },
@@ -199,16 +191,16 @@ const theme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          backgroundImage: 'none',
+          backgroundImage: "none",
         },
         elevation1: {
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
         },
         elevation2: {
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
         },
         elevation3: {
-          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
+          boxShadow: "0 8px 24px rgba(0, 0, 0, 0.12)",
         },
       },
     },

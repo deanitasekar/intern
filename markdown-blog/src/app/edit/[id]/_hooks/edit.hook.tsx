@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { ArticleContext } from "@/contexts/article.context";
@@ -96,7 +98,7 @@ export const useEditArticle = ({
 
       setTimeout(() => {
         setShowSuccess(false);
-        router.push(`/article/${articleId}`);
+        router.replace(`/article/${articleId}`);
       }, 2000);
     } catch (error) {
       console.error("Error updating article:", error);
@@ -113,7 +115,7 @@ export const useEditArticle = ({
       );
       if (!confirmed) return;
     }
-    router.push(`/article/${articleId}`);
+    router.replace(`/article/${articleId}`);
   };
 
   const handleBack = (): void => {
@@ -123,7 +125,7 @@ export const useEditArticle = ({
       );
       if (!confirmed) return;
     }
-    router.back();
+    router.replace("/");
   };
 
   const handleCloseError = (): void => {

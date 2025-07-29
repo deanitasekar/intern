@@ -1,14 +1,14 @@
+import Delete from "@mui/icons-material/Delete";
+import Edit from "@mui/icons-material/Edit";
+import Visibility from "@mui/icons-material/Visibility";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardContent";
+import CardContent from "@mui/material/CardContent";
+import Chip from "@mui/material/Chip";
+import Typography from "@mui/material/Typography"
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardActions,
-  Typography,
-  Button,
-  Box,
-  Chip,
-} from "@mui/material";
-import { Edit, Delete, Visibility } from "@mui/icons-material";
 import { Article } from "../types/article.type";
 
 interface ArticleCardProps {
@@ -38,7 +38,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         <Typography variant="h4" component="h2" gutterBottom>
           {article.title}
         </Typography>
-        <Typography variant="body1" color="text.secondary" paragraph>
+        <Typography variant="body1" color="text.secondary" component={'p'}>
           {article.description}
         </Typography>
         <Box sx={{ mt: "auto" }}>

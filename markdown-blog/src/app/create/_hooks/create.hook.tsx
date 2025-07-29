@@ -20,7 +20,7 @@ interface UseCreateReturn {
   hasUnsavedChanges: boolean;
 }
 
-const DEFAULT_CONTENT = "# Article Title\n\nWrite your article content here...";
+
 
 export const useCreate = (): UseCreateReturn => {
   const router = useRouter();
@@ -28,26 +28,25 @@ export const useCreate = (): UseCreateReturn => {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [content, setContent] = useState(DEFAULT_CONTENT);
+  const [content, setContent] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   const isFormValid =
     title.trim() !== "" &&
-    content.trim() !== "" &&
-    content.trim() !== DEFAULT_CONTENT;
+    content.trim() !== "";
 
   const hasUnsavedChanges =
     title.trim() !== "" ||
     description.trim() !== "" ||
-    (content.trim() !== "" && content.trim() !== DEFAULT_CONTENT);
+    content.trim() !== "";
 
   const validateForm = (): string => {
     if (!title.trim()) {
       return "Title can't be empty";
     }
 
-    if (!content.trim() || content.trim() === DEFAULT_CONTENT) {
+    if (!content.trim()) {
       return "Content can't be empty";
     }
 
@@ -75,7 +74,7 @@ export const useCreate = (): UseCreateReturn => {
 
       addArticle(articleData);
 
-      router.push("/");
+      router.replace("/");
     } catch (error) {
       console.error("Error creating article:", error);
       setError("Failed to save the article. Please try again.");
@@ -91,7 +90,7 @@ export const useCreate = (): UseCreateReturn => {
       );
       if (!confirmed) return;
     }
-    router.push("/");
+    router.replace("/");
   };
 
   const handleBack = (): void => {
@@ -101,7 +100,7 @@ export const useCreate = (): UseCreateReturn => {
       );
       if (!confirmed) return;
     }
-    router.back();
+    router.replace("/");
   };
 
   const handleCloseError = (): void => {

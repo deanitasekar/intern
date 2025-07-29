@@ -1,76 +1,130 @@
 "use client";
 
-import React, { useContext } from "react";
-import {
-  Container,
-  Typography,
-  Box,
-  Button,
-  Paper,
-  Divider,
-  Fade,
-  Link as MuiLink,
-} from "@mui/material";
-import { Edit, Delete, ArrowBack } from "@mui/icons-material";
-import { useParams, useRouter } from "next/navigation";
-import { ArticleContext } from "@/contexts/article.context";
-import { notFound } from "next/navigation";
+import ArrowBack from "@mui/icons-material/ArrowBack"
+import Delete from "@mui/icons-material/Delete"
+import Edit from "@mui/icons-material/Edit"
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
+import Container from "@mui/material/Container";
+import Divider from "@mui/material/Divider";
+import Fade from "@mui/material/Fade";
+import Link from "@mui/material/Link";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import { notFound, useParams } from "next/navigation";
+import React from "react";
 import ReactMarkdown from "react-markdown";
+import { useDetailArticle } from "../_hooks/detail.hook";
 
 export default function ArticleDetailMain() {
   const params = useParams();
-  const router = useRouter();
-  const { getArticle, deleteArticle } = useContext(ArticleContext);
-
   const articleId = params.id as string;
-  const article = getArticle(articleId);
 
-  if (!article) {
+  const { article, isLoading, handleEdit, handleDelete, handleBack } =
+    useDetailArticle({ articleId });
+
+  if (!isLoading && !article) {
     notFound();
   }
 
-  const handleEdit = () => {
-    router.push(`/edit/${articleId}`);
-  };
+  if (isLoading) {
+    return (
+      <Container maxWidth="sm">
+        <Stack
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+          spacing={3}
+          sx={{
+            minHeight: "60vh",
+            textAlign: "center",
+          }}
+        >
+          <Box
+            sx={{
+              position: "relative",
+              display: "inline-flex",
+              "&::before": {
+                content: '""',
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                borderRadius: "50%",
+                padding: "3px",
+                background:
+                  "linear-gradient(45deg, transparent, rgba(33, 150, 243, 0.1))",
+                animation: "pulse 2s ease-in-out infinite",
+              },
+              "@keyframes pulse": {
+                "0%, 100%": {
+                  opacity: 0.8,
+                  transform: "scale(1)",
+                },
+                "50%": {
+                  opacity: 0.4,
+                  transform: "scale(1.05)",
+                },
+              },
+            }}
+          >
+            <CircularProgress
+              size={48}
+              thickness={3.6}
+              sx={{
+                color: "primary.main",
+                "& .MuiCircularProgress-circle": {
+                  strokeLinecap: "round",
+                },
+              }}
+            />
+          </Box>
 
-  const handleDelete = () => {
-    if (window.confirm("Are you sure you want to delete this article?")) {
-      deleteArticle(articleId);
-      router.push("/");
-    }
-  };
+          <Box>
+            <Typography
+              variant="h6"
+              component="h2"
+              sx={{
+                fontWeight: 500,
+                color: "text.primary",
+                mb: 1,
+                letterSpacing: "0.02em",
+              }}
+            >
+              Loading
+            </Typography>
+          </Box>
+        </Stack>
+      </Container>
+    );
+  }
+
   return (
     <Container maxWidth="md" sx={{ py: 1 }}>
       <Fade in timeout={400}>
         <Box sx={{ mb: 4 }}>
           <Fade in timeout={1000}>
-            <Box
-              sx={{
-                mt: 4,
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+              sx={{ mt: 4 }}
             >
               <Button
+                variant="text"
+                color="inherit"
                 startIcon={<ArrowBack />}
-                onClick={() => router.back()}
-                sx={{
-                  color: "text.secondary",
-                  "&:hover": { backgroundColor: "rgba(0,0,0,0.04)" },
-                }}
+                onClick={handleBack}
               >
                 Back
               </Button>
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: 2,
-                  alignItems: "center",
-                }}
-              >
+              <Stack direction="row" spacing={2} alignItems="center">
                 <Button
                   variant="contained"
+                  color="primary"
                   startIcon={<Edit />}
                   onClick={handleEdit}
                   sx={{ borderRadius: 2 }}
@@ -80,19 +134,13 @@ export default function ArticleDetailMain() {
                 <Button
                   variant="contained"
                   startIcon={<Delete />}
+                  color="error"
                   onClick={handleDelete}
-                  sx={{
-                    borderRadius: 2,
-                    backgroundColor: "#d32f2f",
-                    "&:hover": {
-                      backgroundColor: "#c62828",
-                    },
-                  }}
                 >
                   Delete
                 </Button>
-              </Box>
-            </Box>
+              </Stack>
+            </Stack>
           </Fade>
         </Box>
       </Fade>
@@ -242,7 +290,7 @@ export default function ArticleDetailMain() {
               ),
               hr: () => <Divider sx={{ margin: "32px 0" }} />,
               a: ({ href, children }) => (
-                <MuiLink
+                <Link
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -256,7 +304,7 @@ export default function ArticleDetailMain() {
                   }}
                 >
                   {children}
-                </MuiLink>
+                </Link>
               ),
             }}
           >

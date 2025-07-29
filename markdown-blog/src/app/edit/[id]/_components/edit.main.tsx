@@ -1,16 +1,16 @@
 "use client";
 
 import React from "react";
-import {
-  Container,
-  Typography,
-  Box,
-  Paper,
-  Alert,
-  Fade,
-  Button,
-} from "@mui/material";
-import { ArrowBack } from "@mui/icons-material";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Alert from "@mui/material/Alert";
+import Fade from "@mui/material/Fade";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+import CircularProgress from "@mui/material/CircularProgress";
+import ArrowBack from "@mui/icons-material/ArrowBack";
 import { useParams } from "next/navigation";
 import { MarkdownEditor } from "@/components/editor.component";
 import { useEditArticle } from "../_hooks/edit.hook";
@@ -44,18 +44,79 @@ export default function EditArticlePage() {
 
   if (!isInitialized) {
     return (
-      <Container maxWidth="md" sx={{ py: 2 }}>
-        <Box sx={{ textAlign: "center", py: 8 }}>
-          <Typography variant="body1" color="text.secondary">
-            Loading article...
-          </Typography>
-        </Box>
+      <Container maxWidth="sm">
+        <Stack
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+          spacing={3}
+          sx={{
+            minHeight: "60vh",
+            textAlign: "center",
+          }}
+        >
+          <Box
+            sx={{
+              position: "relative",
+              display: "inline-flex",
+              "&::before": {
+                content: '""',
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                borderRadius: "50%",
+                padding: "3px",
+                background:
+                  "linear-gradient(45deg, transparent, rgba(33, 150, 243, 0.1))",
+                animation: "pulse 2s ease-in-out infinite",
+              },
+              "@keyframes pulse": {
+                "0%, 100%": {
+                  opacity: 0.8,
+                  transform: "scale(1)",
+                },
+                "50%": {
+                  opacity: 0.4,
+                  transform: "scale(1.05)",
+                },
+              },
+            }}
+          >
+            <CircularProgress
+              size={48}
+              thickness={3.6}
+              sx={{
+                color: "primary.main",
+                "& .MuiCircularProgress-circle": {
+                  strokeLinecap: "round",
+                },
+              }}
+            />
+          </Box>
+
+          <Box>
+            <Typography
+              variant="h6"
+              component="h2"
+              sx={{
+                fontWeight: 500,
+                color: "text.primary",
+                mb: 1,
+                letterSpacing: "0.02em",
+              }}
+            >
+              Loading
+            </Typography>
+          </Box>
+        </Stack>
       </Container>
     );
   }
 
   return (
-    <Container maxWidth="md" sx={{ py: 2 }}>
+    <Container maxWidth="md" sx={{ py: 1 }}>
       {showSuccess && (
         <Fade in={showSuccess}>
           <Box sx={{ mb: 4 }}>
@@ -66,7 +127,7 @@ export default function EditArticlePage() {
                 fontWeight: 500,
               }}
             >
-              Article updated successfully! Redirecting...
+              Article updated successfully!
             </Alert>
           </Box>
         </Fade>
@@ -85,12 +146,10 @@ export default function EditArticlePage() {
           <Fade in timeout={1000}>
             <Box sx={{ mt: 4 }}>
               <Button
+                variant="text"
+                color="inherit"
                 startIcon={<ArrowBack />}
                 onClick={handleBack}
-                sx={{
-                  color: "text.secondary",
-                  "&:hover": { backgroundColor: "rgba(0,0,0,0.04)" },
-                }}
               >
                 Back
               </Button>
