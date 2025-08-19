@@ -40,10 +40,10 @@ export function Breadcrumb({
 
   return (
     <nav 
-      className={cn("flex items-center space-x-2", className)}
+      className={cn("flex items-center", className)}
       aria-label="Breadcrumb"
     >
-      <ol className="flex items-center space-x-2">
+      <ol className="flex items-center">
         {allItems.map((item, index) => (
           <li key={index} className="flex items-center">
             {index > 0 && (

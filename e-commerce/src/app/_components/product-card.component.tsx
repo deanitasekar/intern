@@ -18,9 +18,10 @@ interface ProductCardProps {
     badge?: string;
   };
   onClick?: () => void;
+  columnSide?: 'left' | 'right';
 }
 
-export function ProductCard({ product, onClick }: ProductCardProps) {
+export function ProductCard({ product, onClick, columnSide = 'left' }: ProductCardProps) {
   const [imageError, setImageError] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -47,10 +48,13 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
     );
   };
 
+  // Tentukan arah rotasi berdasarkan kolom
+  const hoverRotation = columnSide === 'left' ? 'hover:rotate-1' : 'hover:-rotate-1';
+
   return (
     <CardWrapper>
       <div 
-        className="masonry-card transition-all duration-300 ease-in-out transform-gpu hover:scale-105 hover:rotate-1 hover:shadow-lg hover:-translate-y-1"
+        className={`masonry-card transition-all duration-300 ease-in-out transform-gpu hover:scale-105 ${hoverRotation} hover:shadow-lg hover:-translate-y-1`}
         style={{
           transformStyle: 'preserve-3d',
           perspective: '1000px'

@@ -1,5 +1,6 @@
 import { Button } from "@/components/button.component";
 import { Input } from "@/components/input.component";
+import { ChevronUp } from "lucide-react";
 
 interface PaymentProps {
   paymentMethod: "check" | "credit" | "paypal";
@@ -30,150 +31,84 @@ export default function Payment({
 }: PaymentProps) {
   return (
     <div>
-      <h2 className="text-xl font-semibold text-gray-900 mb-6">Payment Method:</h2>
-      
-      <div className="mb-6">
-        <div className="flex items-center mb-4">
-          <input
-            type="radio"
-            id="check"
-            name="payment"
-            value="check"
-            checked={paymentMethod === "check"}
-            onChange={(e) => setPaymentMethod(e.target.value as "check")}
-            className="h-4 w-4 text-green-600"
-          />
-          <label htmlFor="check" className="ml-2 text-sm font-medium">
-            Check / Money order
-          </label>
-        </div>
+      <h2 className="text-lg font-semibold text-gray-900 mb-6">
+        Payment Method
+      </h2>
 
-        <div className="flex items-center mb-4">
-          <input
-            type="radio"
-            id="credit"
-            name="payment"
-            value="credit"
-            checked={paymentMethod === "credit"}
-            onChange={(e) => setPaymentMethod(e.target.value as "credit")}
-            className="h-4 w-4 text-green-600"
-          />
-          <label htmlFor="credit" className="ml-2 text-sm font-medium">
-            Credit Card
-          </label>
-        </div>
+      <div className="mb-8">
+        <div className="mb-4">
+          <div className="mb-2">
+            <span className="text-sm text-gray-700">Check / Money order</span>
+          </div>
 
-        <div className="flex items-center mb-4">
-          <input
-            type="radio"
-            id="paypal"
-            name="payment"
-            value="paypal"
-            checked={paymentMethod === "paypal"}
-            onChange={(e) => setPaymentMethod(e.target.value as "paypal")}
-            className="h-4 w-4 text-green-600"
-          />
-          <label htmlFor="paypal" className="ml-2 text-sm font-medium">
-            PayPal
-          </label>
-        </div>
-
-        {paymentMethod === "check" && (
-          <div className="ml-6 p-4 bg-gray-50 rounded border">
-            <div className="flex items-start mb-3">
-              <input
-                type="checkbox"
-                id="sameAddress"
-                className="h-4 w-4 text-green-600 mt-0.5"
-                defaultChecked
-              />
-              <label htmlFor="sameAddress" className="ml-2 text-sm text-gray-700">
+          <div className="mt-4">
+            <div className="flex items-center mb-4">
+              <div className="w-4 h-4 bg-[#7DB800] rounded-sm flex items-center justify-center mr-3">
+                <svg
+                  className="w-3 h-3 text-white"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <span className="text-sm text-gray-700 font-normal">
                 My billing and shipping address are the same
-              </label>
+              </span>
             </div>
 
-            <div className="text-sm text-gray-700 space-y-1">
-              <p className="font-medium">Veronica Costello</p>
+            <div className="ml-7 text-sm text-gray-700 space-y-1 mb-4">
+              <p className="font-normal">Veronica Costello</p>
               <p>6146 Honey Bluff Parkway</p>
               <p>Calder, Michigan, 49628-7978</p>
               <p>United States</p>
               <p>T: (555) 229-3326</p>
             </div>
 
-            <button 
-              className="mt-3 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 text-sm rounded border border-gray-300"
-              onClick={handleBackToShipping}
-            >
-              Edit
-            </button>
-          </div>
-        )}
-
-        {paymentMethod === "credit" && (
-          <div className="ml-6 p-4 bg-gray-50 rounded border">
-            <p className="text-sm text-gray-700 mb-3">
-              Please enter your credit card information below.
-            </p>
-            <div className="space-y-3">
-              <Input
-                type="text"
-                placeholder="Card Number"
-                className="w-full"
-              />
-              <div className="grid grid-cols-2 gap-3">
-                <Input
-                  type="text"
-                  placeholder="MM/YY"
-                  className="w-full"
-                />
-                <Input
-                  type="text"
-                  placeholder="CVV"
-                  className="w-full"
-                />
-              </div>
-              <Input
-                type="text"
-                placeholder="Cardholder Name"
-                className="w-full"
-              />
+            <div className="ml-7">
+              <button
+                className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 text-sm rounded-[2px] font-bold"
+                onClick={handleBackToShipping}
+              >
+                Edit
+              </button>
             </div>
           </div>
-        )}
-
-        {paymentMethod === "paypal" && (
-          <div className="ml-6 p-4 bg-gray-50 rounded border">
-            <p className="text-sm text-gray-700">
-              You will be redirected to PayPal to complete your payment.
-            </p>
-          </div>
-        )}
+        </div>
       </div>
 
-      <div className="border-t pt-6">
-        <div className="flex flex-col sm:flex-row gap-4">
-          <div className="flex-1">
-            <label className="block text-sm text-gray-700 mb-2">Apply Discount Code</label>
-            <div className="flex">
+      <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-200">
+        <div className="flex flex-col space-y-4 lg:flex-row lg:justify-between lg:items-end lg:space-y-0 lg:space-x-4">
+          <div className="w-full lg:w-auto lg:flex-shrink-0 lg:max-w-sm">
+            <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
+              Apply Discount Code
+              <ChevronUp className="ml-2 h-4 w-4 text-gray-500" />
+            </label>
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-0">
               <Input
                 type="text"
                 value={discountCode}
                 onChange={(e) => setDiscountCode(e.target.value)}
-                className="flex-1 rounded-r-none border-r-0"
                 placeholder="SALE2020"
+                className="flex-1 sm:rounded-r-none focus-visible:ring-0 h-10 text-sm font-base rounded-[0px] border border-gray-300"
               />
               <Button
                 onClick={handleApplyDiscount}
-                className="bg-gray-800 hover:bg-gray-900 text-white px-6 rounded-l-none"
+                className="bg-[#212121] hover:bg-black text-white px-4 sm:px-6 sm:rounded-l-none rounded-[2px] h-10 text-sm font-bold w-full sm:w-auto"
               >
                 Apply Discount
               </Button>
             </div>
           </div>
-          <div className="flex items-end">
+
+          <div className="w-full lg:w-auto">
             <Button
               onClick={handlePlaceOrder}
-              className="bg-[#7DB800] hover:bg-lime-500 text-white px-8 py-2 text-base font-medium"
+              className="w-full lg:w-auto px-4 sm:px-8 h-10 bg-[#7DB800] hover:bg-[#6BA700] text-white rounded-[2px] text-sm font-bold"
             >
               Place Order
             </Button>

@@ -15,16 +15,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { EnhancedSearch } from "./search-bar.component";
+import { SearchBar } from "./search-bar.component";
 import { Typography } from "./typography.component";
 
-const HeartIcon = ({ className = "h-5 w-5" }: { className?: string }) => (
+const HeartIcon = ({ className = "h-8 w-8" }: { className?: string }) => (
   <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
   </svg>
 );
 
-const UserIcon = ({ className = "h-5 w-5" }: { className?: string }) => (
+const UserIcon = ({ className = "h-8 w-8" }: { className?: string }) => (
   <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2">
     <circle cx="12" cy="12" r="10"/>
     <circle cx="12" cy="8" r="3"/>
@@ -32,10 +32,10 @@ const UserIcon = ({ className = "h-5 w-5" }: { className?: string }) => (
   </svg>
 );
 
-const ShoppingBagIcon = ({ className = "h-5 w-5" }: { className?: string }) => (
+const ShoppingBagIcon = ({ className = "h-8 w-8" }: { className?: string }) => (
   <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2">
-    <rect x="3" y="7" width="18" height="13" rx="2" ry="2"/>
-    <path d="M8 7V5a4 4 0 0 1 8 0v2"/>
+    <rect x="3" y="3" width="18" height="18" rx="2"/>
+    <path d="M8 9C8 9 9 12 12 12C15 12 16 9 16 9" strokeLinecap="square"/>
   </svg>
 );
 
@@ -151,7 +151,7 @@ export function Navbar({ currentPage }: HeaderProps) {
       return (
         <Badge
           variant="default"
-          className={`absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-gray-500 text-white border-0 ${className}`}
+          className={`absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-[#7DB800] text-white ${className}`}
         >
           0
         </Badge>
@@ -161,7 +161,7 @@ export function Navbar({ currentPage }: HeaderProps) {
     return (
       <Badge
         variant="default"
-        className={`absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-[#7DB800] text-white border-0 ${className}`}
+        className={`absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-[#7DB800] text-white ${className}`}
       >
         {cartLoading ? "..." : totalItems > 99 ? "99+" : totalItems}
       </Badge>
@@ -178,7 +178,7 @@ export function Navbar({ currentPage }: HeaderProps) {
         }`}
       >
         <div className="container-lg mx-auto px-4 lg:px-6">
-          <div className="flex h-16 items-center justify-between">
+          <div className="flex h-20 items-center justify-between">
             
             <div className="flex md:hidden w-full items-center justify-between">
               <Button
@@ -210,7 +210,7 @@ export function Navbar({ currentPage }: HeaderProps) {
                     shouldBeTransparent ? "text-gray-800" : "text-white"
                   }`}
                 >
-                  <Search className="h-5 w-5" />
+                  <Search className="h-8 w-8" />
                 </Button>
 
                 {isAuthenticated ? (
@@ -223,7 +223,7 @@ export function Navbar({ currentPage }: HeaderProps) {
                       }`}
                       onClick={handleCartNavigation}
                     >
-                      <ShoppingBagIcon className="h-5 w-5" />
+                      <ShoppingBagIcon className="h-7 w-7" />
                       <CartBadge />
                     </Button>
                   </Link>
@@ -236,7 +236,7 @@ export function Navbar({ currentPage }: HeaderProps) {
                     }`}
                     onClick={handleCartNavigation}
                   >
-                    <ShoppingBagIcon className="h-5 w-5" />
+                    <ShoppingBagIcon className="h-8 w-8" />
                   </Button>
                 )}
               </div>
@@ -244,7 +244,7 @@ export function Navbar({ currentPage }: HeaderProps) {
 
             <div className="hidden md:flex w-full items-center justify-between">
               <div className="hidden lg:flex flex-1 max-w-xs">
-                <EnhancedSearch
+                <SearchBar
                   placeholder="Search"
                   onSearch={handleSearch}
                   className="w-full"
@@ -263,12 +263,12 @@ export function Navbar({ currentPage }: HeaderProps) {
                 </Link>
               </div>
 
-              <div className="flex items-center space-x-2 flex-1 lg:flex-none justify-end">
+              <div className="flex items-center space-x-1 flex-1 lg:flex-none justify-end">
                 <div className="hidden lg:flex items-center space-x-1">
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="text-sm text-white hover:text-[#7DB800] hover:bg-white/10"
+                    className="text-sm text-white hover:text-[#7DB800] hover:bg-white/10 px-2"
                   >
                     English
                     <ChevronDown className="h-3 w-3 ml-1" />
@@ -276,7 +276,7 @@ export function Navbar({ currentPage }: HeaderProps) {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="text-sm text-white hover:text-[#7DB800] hover:bg-white/10"
+                    className="text-sm text-white hover:text-[#7DB800] hover:bg-white/10 px-2"
                   >
                     USD
                     <ChevronDown className="h-3 w-3 ml-1" />
@@ -286,16 +286,16 @@ export function Navbar({ currentPage }: HeaderProps) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="text-white hover:text-[#7DB800] hover:bg-white/10"
+                  className="text-white hover:text-[#7DB800] hover:bg-white/10 p-3"
                 >
-                  <HeartIcon className="h-5 w-5" />
+                  <HeartIcon className="h-8 w-8" />
                 </Button>
 
                 <Link href="/auth">
                   <Button
                     variant="ghost"
                     size="icon"
-                    className={`hover:text-[#7DB800] hover:bg-white/10 ${
+                    className={`hover:text-[#7DB800] hover:bg-white/10 p-3 ${
                       isAuthPage ? "text-[#7DB800]" : "text-white"
                     }`}
                     title={
@@ -304,7 +304,7 @@ export function Navbar({ currentPage }: HeaderProps) {
                         : "Login"
                     }
                   >
-                    <UserIcon className="h-5 w-5" />
+                    <UserIcon className="h-8 w-8" />
                   </Button>
                 </Link>
 
@@ -313,25 +313,25 @@ export function Navbar({ currentPage }: HeaderProps) {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className={`relative hover:text-[#7DB800] hover:bg-white/10 ${
+                      className={`relative hover:text-[#7DB800] hover:bg-white/10 p-3 ${
                         isCartPage ? "text-[#7DB800]" : "text-white"
                       }`}
                       onClick={handleCartNavigation}
                     >
-                      <ShoppingBagIcon className="h-5 w-5" />
-                      <CartBadge className="-top-2 -right-2" />
+                      <ShoppingBagIcon className="h-8 w-8" />
+                      <CartBadge />
                     </Button>
                   </Link>
                 ) : (
                   <Button
                     variant="ghost"
                     size="icon"
-                    className={`relative hover:text-[#7DB800] hover:bg-white/10 ${
+                    className={`relative hover:text-[#7DB800] hover:bg-white/10 p-3 ${
                       isCartPage ? "text-[#7DB800]" : "text-white"
                     }`}
                     onClick={handleCartNavigation}
                   >
-                    <ShoppingBagIcon className="h-5 w-5" />
+                    <ShoppingBagIcon className="h-8 w-8" />
                   </Button>
                 )}
               </div>

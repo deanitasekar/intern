@@ -2,6 +2,7 @@
 
 import { Breadcrumb } from "@/components/breadcrumb.component";
 import { Button } from "@/components/button.component";
+import { Typography } from "@/components/typography.component";
 import { useAuth } from "@/hooks/use-auth.hook";
 import { useCart } from "@/hooks/use-cart.hook";
 import {
@@ -129,7 +130,7 @@ export function ProductIdInfo({ product }: ProductIdInfoProps) {
   return (
     <div className="bg-white">
       <div className="container-lg mx-auto px-6 py-8 md:mt-2">
-        <div className="py-6">
+        <div className="py-2 mb-6">
           <Breadcrumb
             items={breadcrumbItems}
             separator=" > "
@@ -206,10 +207,10 @@ export function ProductIdInfo({ product }: ProductIdInfoProps) {
 
               <div className="flex items-center space-x-3 mb-4">
                 {product.rating && renderStars(product.rating.rate)}
-                <span className="text-xs text-gray-600 hover:underline">
+                <span className="text-xs text-gray-600 underline">
                   {product.rating?.count || 0} reviews
                 </span>
-                <button className="text-xs text-gray-800 ml-3 hover:underline">
+                <button className="text-xs text-gray-800 ml-3 underline">
                   Add Your Review
                 </button>
               </div>
@@ -255,38 +256,37 @@ export function ProductIdInfo({ product }: ProductIdInfoProps) {
               </div>
             )}
 
-            <div className="space-y-3">
-              <label className="text-sm font-medium text-gray-700">
-                Quantity
-              </label>
-              <div className="flex items-center space-x-3">
-                <div className="flex items-center border border-gray-300 rounded">
+            <div className="space-y-4">
+              <div className="flex items-center space-x-6">
+                <label className="text-sm font-normal text-gray-700">
+                  Quantity
+                </label>
+                <div className="flex items-center border border-gray-300">
                   <button
                     onClick={() => handleQuantityChange(-1)}
                     disabled={quantity <= 1}
-                    className="px-3 py-2 text-gray-600 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed text-lg"
+                    className="px-3 py-2 text-gray-700 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed text-lg"
                   >
                     -
                   </button>
-                  <span className="px-4 py-2 border-l border-r border-gray-300 min-w-[60px] text-center font-medium">
+                  <span className="px-4 py-2 text-gray-700 border-gray-300 min-w-[60px] text-center font-medium">
                     {quantity}
                   </span>
                   <button
                     onClick={() => handleQuantityChange(1)}
-                    className="px-3 py-2 text-gray-600 hover:bg-gray-100 text-lg"
+                    className="px-3 py-2 text-gray-700 hover:bg-gray-100 text-lg"
                   >
                     +
                   </button>
                 </div>
               </div>
-            </div>
 
-            <div className="space-y-4">
+              {/* Add to Cart button - below quantity */}
               {isAuthenticated ? (
                 <Button
                   onClick={handleAddToCart}
                   disabled={isAddingToCart}
-                  className="w-full bg-[#7DB800] hover:bg-[#6FA500] disabled:bg-gray-400 text-white py-3 text-base font-medium rounded flex items-center justify-center"
+                  className="bg-[#7DB800] hover:bg-[#6FA500] disabled:bg-gray-400 text-white px-6 py-2 text-base font-medium flex items-center justify-center w-fit h-full shadow-sm"
                 >
                   {isAddingToCart ? (
                     <>
@@ -294,36 +294,63 @@ export function ProductIdInfo({ product }: ProductIdInfoProps) {
                       Adding to Cart...
                     </>
                   ) : (
-                    <>
-                      <ShoppingCart className="h-5 w-5 mr-2" />
-                      Add to Cart
-                    </>
+                    <Typography>Add to Cart</Typography>
                   )}
                 </Button>
               ) : (
                 <Button
                   onClick={handleLoginRedirect}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 text-base font-medium rounded flex items-center justify-center"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 text-base font-medium rounded flex items-center justify-center w-fit"
                 >
                   <LogIn className="h-5 w-5 mr-2" />
                   Login to Add to Cart
                 </Button>
               )}
 
-              <div className="flex items-center space-x-6 pt-2">
-                <button className="flex items-center text-gray-600 hover:text-gray-800 transition-colors">
-                  <Heart className="h-5 w-5 mr-2" />
-                  <span className="text-sm">ADD TO WISH LIST</span>
+              {/* Action buttons - with filled icons and #828282 color */}
+              <div className="flex items-center space-x-8 pt-2">
+                <button
+                  className="flex items-center hover:opacity-80 transition-opacity"
+                  style={{ color: "#828282" }}
+                >
+                  <Heart className="h-5 w-5 mr-2" fill="currentColor" />
+                  <span className="text-sm font-medium uppercase tracking-wide">
+                    Add to Wish List
+                  </span>
                 </button>
 
-                <button className="flex items-center text-gray-600 hover:text-gray-800 transition-colors">
-                  <BarChart3 className="h-5 w-5 mr-2" />
-                  <span className="text-sm">ADD TO COMPARE</span>
+                <button
+                  className="flex items-center hover:opacity-80 transition-opacity"
+                  style={{ color: "#828282" }}
+                >
+                  <svg
+                    className="h-5 w-5 mr-2"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <rect x="4" y="11" width="4" height="8" />
+                    <rect x="10" y="4" width="4" height="15" />
+                    <rect x="17" y="9" width="4" height="10" />
+                  </svg>
+                  <span className="text-sm font-medium uppercase tracking-wide">
+                    Add to Compare
+                  </span>
                 </button>
 
-                <button className="flex items-center text-gray-600 hover:text-gray-800 transition-colors">
-                  <Mail className="h-5 w-5 mr-2" />
-                  <span className="text-sm">EMAIL</span>
+                <button
+                  className="flex items-center hover:opacity-80 transition-opacity"
+                  style={{ color: "#828282" }}
+                >
+                  <svg
+                    className="h-5 w-5 mr-2"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                  </svg>
+                  <span className="text-sm font-medium uppercase tracking-wide">
+                    Email
+                  </span>
                 </button>
               </div>
             </div>

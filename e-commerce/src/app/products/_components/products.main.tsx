@@ -112,7 +112,7 @@ export default function ProductsMain() {
               onSortChange={setSortBy}
             />
 
-            <div className="bg-white p-6">
+            <div className="bg-white px-4 py-2">
               {filteredProducts && filteredProducts.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filteredProducts.map((product) => (
@@ -157,7 +157,7 @@ export default function ProductsMain() {
               )}
             </div>
 
-            <div className="flex items-center justify-end bg-white border-t border-gray-200 px-6 py-4">
+            <div className="flex items-center justify-end bg-white  p-4">
               <div className="flex items-center text-gray-600 text-sm space-x-2">
                 <Typography
                   variant="small"
@@ -165,7 +165,7 @@ export default function ProductsMain() {
                 >
                   Show
                 </Typography>
-                <select className="border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-gray-200">
+                <select className="bg-gray-200 border border-gray-200 px-3 py-1 text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-gray-300">
                   <option>20</option>
                   <option>40</option>
                   <option>60</option>

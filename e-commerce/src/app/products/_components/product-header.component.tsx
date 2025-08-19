@@ -33,7 +33,7 @@ export function ProductHeader({ title, customBreadcrumbs }: HeaderProps) {
           </div>
           <Typography
             variant="h1"
-            className="text-4xl md:text-5xl lg:text-6xl text-white font-light"
+            className="text-[40px] text-white font-light"
           >
             {title}
           </Typography>

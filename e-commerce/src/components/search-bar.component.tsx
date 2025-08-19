@@ -1,17 +1,17 @@
 import { Input } from "@/components/input.component";
 import { Search } from "lucide-react";
 
-interface EnhancedSearchProps {
+interface SearchBarProps {
   placeholder?: string;
   className?: string;
   onSearch?: (query: string) => void;
 }
 
-export function EnhancedSearch({
+export function SearchBar({
   placeholder = "Search",
   className = "",
   onSearch,
-}: EnhancedSearchProps) {
+}: SearchBarProps) {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (onSearch) {
       onSearch(e.target.value);

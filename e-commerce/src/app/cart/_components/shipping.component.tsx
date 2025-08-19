@@ -21,29 +21,23 @@ export function Shipping({ onShippingChange }: ShippingEstimateProps) {
 
   return (
     <div className="mb-6">
-      <h4 className="text-sm font-medium text-gray-900 mb-4">
-        Estimate Shipping and Tax
-      </h4>
-
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-600 mb-2">
             Country
           </label>
           <div className="relative">
             <select
               value={country}
               onChange={(e) => setCountry(e.target.value)}
-              className="w-full px-3 py-3 text-sm border border-gray-300 rounded bg-white appearance-none pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-3 text-sm font-normal border border-gray-300 bg-white appearance-none pr-8 focus:outline-none focus:ring-1 focus:ring-[#7DB800] focus:border-[$7DB800]"
               style={{
                 height: "44px",
                 fontSize: "14px",
                 color: "#374151",
               }}
             >
-              <option value="">
-                Please select a country
-              </option>
+              <option value="">Please select a country</option>
               <option value="Indonesia">Indonesia</option>
             </select>
             <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
@@ -51,14 +45,14 @@ export function Shipping({ onShippingChange }: ShippingEstimateProps) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            State/Province
+          <label className="block text-sm font-medium text-gray-600 mb-2">
+            State / Province
           </label>
           <div className="relative">
             <select
               value={state}
               onChange={(e) => setState(e.target.value)}
-              className="w-full px-3 py-3 text-sm border border-gray-300 rounded bg-white appearance-none pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-3 text-sm border border-gray-300 bg-white appearance-none pr-8 focus:outline-none focus:ring-1 focus:ring-[#7DB800] focus:border-[$7DB800"
               style={{
                 height: "44px",
                 fontSize: "14px",
@@ -110,14 +104,14 @@ export function Shipping({ onShippingChange }: ShippingEstimateProps) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-600 mb-2">
             Zip/Postal Code
           </label>
           <input
             type="text"
             value={zipCode}
             onChange={(e) => setZipCode(e.target.value)}
-            className="w-full px-3 py-3 text-sm border border-gray-300 rounded bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full px-3 py-3 text-sm border border-gray-300 bg-white focus:outline-none focus:ring-1 focus:ring-[#7DB800] focus:border-[$7DB800"
             style={{
               height: "44px",
               fontSize: "14px",
@@ -129,7 +123,7 @@ export function Shipping({ onShippingChange }: ShippingEstimateProps) {
 
       <div className="mt-4 space-y-3">
         <div>
-          <h5 className="text-xs font-medium text-gray-700 mb-2">Flat Rate</h5>
+          <h5 className="text-sm font-medium text-gray-600 mb-2">Flat Rate</h5>
           <div className="flex items-center">
             <input
               type="radio"
@@ -138,16 +132,16 @@ export function Shipping({ onShippingChange }: ShippingEstimateProps) {
               value="fixed"
               checked={selectedShipping === "fixed"}
               onChange={(e) => handleShippingChange(e.target.value)}
-              className="h-3 w-3 text-blue-600 border-gray-300 focus:ring-blue-500"
+              className="h-3 w-3 text-[#7DB800] border-gray-300 focus:ring-[#7DB800]"
             />
-            <label htmlFor="fixed" className="ml-2 text-xs text-gray-700">
+            <label htmlFor="fixed" className="ml-2 text-sm text-gray-500">
               Fixed $5.00
             </label>
           </div>
         </div>
 
         <div>
-          <h5 className="text-xs font-medium text-gray-700 mb-2">Best Way</h5>
+          <h5 className="text-sm font-medium text-gray-600 mb-2">Best Way</h5>
           <div className="flex items-center">
             <input
               type="radio"
@@ -156,9 +150,9 @@ export function Shipping({ onShippingChange }: ShippingEstimateProps) {
               value="table"
               checked={selectedShipping === "table"}
               onChange={(e) => handleShippingChange(e.target.value)}
-              className="h-3 w-3 text-blue-600 border-gray-300 focus:ring-blue-500"
+              className="h-3 w-3 text-[#7DB800] border-gray-300 focus:ring-[#7DB800]"
             />
-            <label htmlFor="table" className="ml-2 text-xs text-gray-700">
+            <label htmlFor="table" className="ml-2 text-sm text-gray-500">
               Table Rate $15.00
             </label>
           </div>

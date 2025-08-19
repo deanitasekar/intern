@@ -5,10 +5,7 @@ export interface CheckoutData {
     firstName: string;
     lastName: string;
     company: string;
-    streetAddress1: string;
-    streetAddress2: string;
-    streetAddress3: string;
-    streetAddress4: string;
+    streetAddress: string;
     country: string;
     state: string;
     zipCode: string;
@@ -36,10 +33,7 @@ export const useCheckout = () => {
       firstName: "",
       lastName: "",
       company: "",
-      streetAddress1: "",
-      streetAddress2: "",
-      streetAddress3: "",
-      streetAddress4: "",
+      streetAddress: "",
       country: "",
       state: "",
       zipCode: "",
@@ -135,10 +129,7 @@ export const useCheckout = () => {
         firstName: "",
         lastName: "",
         company: "",
-        streetAddress1: "",
-        streetAddress2: "",
-        streetAddress3: "",
-        streetAddress4: "",
+        streetAddress: "",
         country: "",
         state: "",
         zipCode: "",
@@ -172,7 +163,7 @@ export const useCheckout = () => {
     return (
       shipping.firstName.trim() !== "" &&
       shipping.lastName.trim() !== "" &&
-      shipping.streetAddress1.trim() !== "" &&
+      shipping.streetAddress.trim() !== "" &&
       shipping.country.trim() !== "" &&
       shipping.state.trim() !== ""
     );

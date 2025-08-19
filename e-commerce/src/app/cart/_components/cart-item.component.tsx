@@ -37,8 +37,8 @@ export function CartItem({
 
   return (
     <tr>
-      <td className="py-4 pr-4">
-        <div className="w-24 h-24 bg-gray-100 rounded overflow-hidden">
+      <td className="py-4">
+        <div className="w-30 h-30 bg-gray-100 overflow-hidden">
           <img
             src={product.image}
             alt={product.title}
@@ -46,25 +46,28 @@ export function CartItem({
           />
         </div>
         <div className="mt-3">
-          <button className="text-sm text-gray-500 hover:text-gray-700 underline">
+          <button className="text-sm font-normal text-gray-500 hover:text-gray-700 underline">
             Move to Wishlist
           </button>
         </div>
       </td>
 
-      <td className="pt-4 pb-4 px-4" style={{ verticalAlign: "top" }}>
+      <td
+        className="pt-4 pb-4"
+        style={{ verticalAlign: "top", width: "50px" }}
+      >
         <div>
-          <h3 className="text-sm font-medium text-gray-900 underline mb-2">
+          <h3 className="text-lg font-normal text-gray-900 underline mb-2">
             {product.title}
           </h3>
-          <div className="text-xs text-gray-600 space-y-1">
+          <div className="text-sm text-gray-500 space-y-1">
             <div>
-              <span className="font-medium">Size:</span>
-              <span className="ml-1 text-gray-800">{product.size || "29"}</span>
+              <span className="font-bold">Size:</span>
+              <span className="ml-2 font-normal ">{product.size || "29"}</span>
             </div>
             <div>
-              <span className="font-medium">Color:</span>
-              <span className="ml-1 text-gray-800">
+              <span className="font-bold">Color:</span>
+              <span className="ml-2 font-normal">
                 {product.color || "Green"}
               </span>
             </div>
@@ -72,18 +75,23 @@ export function CartItem({
         </div>
       </td>
 
-      <td className="py-4 px-4 text-center" style={{ verticalAlign: "top" }}>
-        <span className="text-sm font-medium text-gray-900">
-          ${product.price.toFixed(2)}
-        </span>
+      <td
+        className="py-4 px-2"
+        style={{ verticalAlign: "top", width: "80px" }}
+      >
+        <div className="w-20 text-left">
+          <span className="text-lg font-medium text-gray-900 inline-block min-w-[4rem]">
+            ${product.price.toFixed(2)}
+          </span>
+        </div>
       </td>
 
-      <td className="py-4 px-4 text-center" style={{ verticalAlign: "top" }}>
-        <div className="flex items-center justify-center">
-          <div className="flex items-center border border-gray-300 rounded">
+      <td className="py-4 px-2" style={{ verticalAlign: "top", width: "1%" }}>
+        <div className="flex items-start">
+          <div className="flex items-center border border-gray-300">
             <button
               onClick={handleQuantityDecrease}
-              className="w-6 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100 text-sm border-r border-gray-300 transition-colors"
+              className="w-6 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100 text-sm transition-colors"
             >
               <Minus className="h-3 w-3" />
             </button>
@@ -94,7 +102,7 @@ export function CartItem({
 
             <button
               onClick={handleQuantityIncrease}
-              className="w-6 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100 text-sm border-l border-gray-300 transition-colors"
+              className="w-6 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100 text-sm transition-colors"
             >
               <Plus className="h-3 w-3" />
             </button>
@@ -102,10 +110,15 @@ export function CartItem({
         </div>
       </td>
 
-      <td className="py-4 px-4 text-center" style={{ verticalAlign: "top" }}>
-        <span className="text-sm font-medium text-gray-900">
-          ${subtotal.toFixed(2)}
-        </span>
+      <td
+        className="py-4 px-2"
+        style={{ verticalAlign: "top", width: "120px" }}
+      >
+        <div className="w-24 text-left">
+          <span className="text-lg font-medium text-gray-900 inline-block min-w-[5rem]">
+            ${subtotal.toFixed(2)}
+          </span>
+        </div>
       </td>
     </tr>
   );

@@ -32,6 +32,10 @@ interface AuthProviderProps {
 const ACCESS_TOKEN_KEY = "auth_token";
 const USER_DATA_KEY = "user_data";
 
+// Progress bar configuration
+const PROGRESS_DURATION = 1800; // 2 seconds total
+const PROGRESS_INTERVAL = 60; // Update every 50ms
+
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = React.useState<User | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -42,22 +46,28 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const pathname = usePathname();
   const isAuthenticated = Boolean(user);
 
-  React.useEffect(() => {
-    if (!isClient || !isLoading) return;
+  // Static progress animation
+  const startProgressAnimation = useCallback(() => {
+    setProgress(0);
+    const startTime = Date.now();
     
     const interval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) return 100;
-        return prev + Math.random() * 15;
-      });
-    }, 200);
+      const elapsed = Date.now() - startTime;
+      const progressPercentage = Math.min((elapsed / PROGRESS_DURATION) * 100, 100);
+      
+      setProgress(progressPercentage);
+      
+      if (progressPercentage >= 100) {
+        clearInterval(interval);
+      }
+    }, PROGRESS_INTERVAL);
 
-    return () => clearInterval(interval);
-  }, [isClient, isLoading]);
+    return interval;
+  }, []);
 
   const login = async (credentials: LoginRequest): Promise<any> => {
     setIsLoading(true);
-    setProgress(0);
+    const progressInterval = startProgressAnimation();
 
     try {
       const response = await authService.login(credentials);
@@ -65,15 +75,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setUser(response.user);
       window.dispatchEvent(new Event("authStateChanged"));
       
-      console.log("Login successful for user:", response.user.username)
+      console.log("Login successful for user:", response.user.username);
       
       return response;
     } catch (error) {
       console.error("Login error:", error);
       throw error;
     } finally {
-      setIsLoading(false);
-      setProgress(100);
+      // Wait for progress animation to complete
+      setTimeout(() => {
+        setIsLoading(false);
+        clearInterval(progressInterval);
+      }, Math.max(0, PROGRESS_DURATION - (Date.now() % PROGRESS_DURATION)));
     }
   };
 
@@ -85,15 +98,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const logout = () => {
     setIsLoading(true);
-    setProgress(0);
+    const progressInterval = startProgressAnimation();
 
     try {
       clearAuth();
       console.log("Logout successful");
-      router.replace("/auth");
-    } finally {
-      setIsLoading(false);
-      setProgress(100);
+      
+      setTimeout(() => {
+        router.replace("/auth");
+        setIsLoading(false);
+        clearInterval(progressInterval);
+      }, PROGRESS_DURATION);
+    } catch (error) {
+      setTimeout(() => {
+        setIsLoading(false);
+        clearInterval(progressInterval);
+      }, PROGRESS_DURATION);
     }
   };
 
@@ -115,7 +135,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const initializeAuth = async () => {
       setIsLoading(true);
-      setProgress(0);
+      const progressInterval = startProgressAnimation();
 
       try {
         const storedToken = localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -124,7 +144,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         if (storedToken && storedUser) {
           const userData = JSON.parse(storedUser);
           setUser(userData);
-
         } else {
           const protectedRoutes = ["/products", "/elements", "/pages", "/shop", "/sale", "/checkout"];
           const isOnProtectedRoute = protectedRoutes.some((route) =>
@@ -148,13 +167,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           router.replace(`/restricted?redirect=${encodeURIComponent(pathname)}`);
         }
       } finally {
-        setIsLoading(false);
-        setProgress(100);
+        // Always wait for full progress animation
+        setTimeout(() => {
+          setIsLoading(false);
+          clearInterval(progressInterval);
+        }, PROGRESS_DURATION);
       }
     };
 
     initializeAuth();
-  }, [pathname, router, clearAuth]);
+  }, [pathname, router, clearAuth, startProgressAnimation]);
 
   React.useEffect(() => {
     console.log("Auth State Debug:", {
@@ -174,7 +196,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     updateUser,
   };
 
-  if (!isClient) {
+  if (!isClient || isLoading) {
     return (
       <div className="min-h-screen bg-[#212121] flex flex-col items-center justify-center relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
@@ -202,10 +224,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           <div className="w-80 max-w-md mx-auto space-y-3">
             <div className="relative">
               <Progress value={progress} className="h-3 bg-gray-700" />
-              <div 
-                className="absolute top-0 left-0 h-3 bg-gradient-to-r from-[#7DB800] to-[#9ACD32] rounded-full transition-all duration-300 ease-out opacity-30 blur-sm"
-                style={{ width: `${progress}%` }}
-              ></div>
             </div>
             
             <div className="flex justify-between items-center">
