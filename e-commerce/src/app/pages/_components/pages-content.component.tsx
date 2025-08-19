@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 export function PagesContent() {
   return (
     <section className="py-16 bg-white">
@@ -54,43 +56,47 @@ export function PagesContent() {
             className="bg-gray-100 overflow-hidden"
             style={{ height: "500px" }}
           >
-            <img
+            <Image
               src="/pages-1.png"
               alt="Green velvet sofa"
+              width={400}
+              height={400}
               className="w-full h-full object-cover"
             />
           </div>
         </div>
 
         <div className="space-y-4 text-gray-600 leading-relaxed mb-16">
-          <p>It's a tricky thing, being a wedding guest.</p>
+          <p>It&apos;s a tricky thing, being a wedding guest.</p>
           <p>
-            Among the endless list of requirements – buy a present, arrange
-            accommodation, practise your small talk – there's one obligation
-            that trumps them all in terms of effort: fix up and look sharp.
+            Among the endless list of requirements &apos; buy a present, arrange
+            accommodation, practise your small talk &apos; there&apos;s one
+            obligation that trumps them all in terms of effort: fix up and look
+            sharp.
           </p>
           <p>
             The rules surrounding wedding guest dressing are as nuanced as they
             come.
           </p>
           <p>
-            There are some obvious musts – avoiding white is always a good idea
-            – and others that are only acknowledged by serial wedding-goers,
-            such as steering clear of stilettos unless you enjoy the feeling of
-            numbness in your feet.
+            There are some obvious musts &apos; avoiding white is always a good
+            idea &apos; and others that are only acknowledged by serial
+            wedding-goers, such as steering clear of stilettos unless you enjoy
+            the feeling of numbness in your feet.
           </p>
           <p>
             In the summer, things get even more complicated. Not only do you
-            have to find a sweat-free way to "dress to the nines", but you have
-            to strike the right balance between playful sunshine garb and formal
-            occasionwear. This forces you to ask difficult questions, such as
-            "Is this wrap dress more 'I do' or 'BBQ?'" and "Does this hat make
-            me look like a chic French woman, or a dishevelled bird?"
+            have to find a sweat-free way to &quot;dress to the nines&quot;, but
+            you have to strike the right balance between playful sunshine garb
+            and formal occasionwear. This forces you to ask difficult questions,
+            such as `&quot;Is this wrap dress more &apos;I do&apos; or
+            &apos;BBQ?&apos;&quot; and &quot;Does this hat make me look like a
+            chic French woman, or a dishevelled bird?&quot;
           </p>
           <p>
-            It's no mean feat, so here's our handy guide to summer wedding guest
-            dressing, with tips from industry experts on the trends and colours
-            you need to know about this season.
+            It&apos;s no mean feat, so here&apos;s our handy guide to summer
+            wedding guest dressing, with tips from industry experts on the
+            trends and colours you need to know about this season.
           </p>
         </div>
 
@@ -99,9 +105,11 @@ export function PagesContent() {
             className="bg-gray-100 overflow-hidden"
             style={{ height: "500px" }}
           >
-            <img
+            <Image
               src="/pages-2.png"
               alt="White sofa"
+              width={400}
+              height={400}
               className="w-full h-full object-cover"
             />
           </div>

@@ -10,7 +10,6 @@ interface CheckoutHeaderProps {
 }
 
 export function CheckoutHeader({ currentStep }: CheckoutHeaderProps) {
-  // Breadcrumb logic
   const getBreadcrumbLabel = () => {
     switch (currentStep) {
       case "success":
@@ -22,12 +21,8 @@ export function CheckoutHeader({ currentStep }: CheckoutHeaderProps) {
     }
   };
 
-  const breadcrumbItems = [
-    { label: "Home", href: "/" },
-    { label: getBreadcrumbLabel() },
-  ];
+  const breadcrumbItems = [{ label: getBreadcrumbLabel() }];
 
-  // Stepper logic
   const steps = [
     {
       id: "shipping",
@@ -44,11 +39,11 @@ export function CheckoutHeader({ currentStep }: CheckoutHeaderProps) {
   const getStepStatus = (stepId: string) => {
     const stepIndex = steps.findIndex((step) => step.id === stepId);
     const currentIndex = steps.findIndex((step) => step.id === currentStep);
-    
+
     if (currentStep === "success") {
       return "completed";
     }
-    
+
     if (stepIndex < currentIndex) {
       return "completed";
     } else if (stepIndex === currentIndex) {
@@ -83,7 +78,6 @@ export function CheckoutHeader({ currentStep }: CheckoutHeaderProps) {
 
   return (
     <div className="container-lg mx-auto px-6 pt-8 pb-4 md:mt-2">
-      {/* Breadcrumb */}
       <div className="py-2 mb-6">
         <Breadcrumb
           items={breadcrumbItems}
@@ -92,7 +86,6 @@ export function CheckoutHeader({ currentStep }: CheckoutHeaderProps) {
         />
       </div>
 
-      {/* Stepper - Only show if not on success page */}
       {currentStep !== "success" && (
         <div className="pb-8">
           <div className="flex items-start justify-center space-x-4">

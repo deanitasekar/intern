@@ -6,6 +6,7 @@ import { CartProvider } from "@/contexts/cart.context";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import WishlistProvider from "@/contexts/wishlist.context";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -29,9 +30,11 @@ export default function RootLayout({
       <body className={`${poppins.variable} ${poppins.className}`}>
         <AuthProvider>
           <CartProvider>
-            <Navbar />
-            <AuthMiddleware>{children}</AuthMiddleware>
-            <Footer />
+            <WishlistProvider>
+              <Navbar />
+              <AuthMiddleware>{children}</AuthMiddleware>
+              <Footer />
+            </WishlistProvider>
           </CartProvider>
         </AuthProvider>
       </body>

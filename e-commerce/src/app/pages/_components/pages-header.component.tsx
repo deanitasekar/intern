@@ -7,10 +7,10 @@ interface ProductPageHeaderProps {
   title?: string;
 }
 
-export function PagesHeader({ title = "Simple Wood Chair Collection" }: ProductPageHeaderProps) {
-  const breadcrumbItems = [
-    { label: title }
-  ];
+export function PagesHeader({
+  title = "Simple Wood Chair Collection",
+}: ProductPageHeaderProps) {
+  const breadcrumbItems = [{ label: title }];
 
   return (
     <section

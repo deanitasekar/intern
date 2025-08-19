@@ -3,35 +3,32 @@
 import { useAuthGuard } from "@/components/auth-middleware.component";
 import { Button } from "@/components/button.component";
 import { Typography } from "@/components/typography.component";
-import { useAuth } from "@/hooks/use-auth.hook";
-import { useCategories, useProducts } from "@/hooks/use-product.hook";
 import { Loader2, ShieldAlert } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
 import { ProductHeader } from "./product-header.component";
 import { ProductCard } from "./products-card.component";
 import { Sidebar } from "./sidebar.component";
 import { Toolbar } from "./toolbar.component";
+import { useProductsForm } from "../_hooks/products.hook";
 
 export default function ProductsMain() {
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [sortBy, setSortBy] = useState<"asc" | "desc">("asc");
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-
   const { isAllowed, isLoading: authLoading } = useAuthGuard();
-  const { isAuthenticated, user } = useAuth();
 
   const {
-    products,
+    filteredProducts,
+    categories,
     isLoading: productsLoading,
     error,
-  } = useProducts(isAuthenticated ? 20 : 0, sortBy);
-  const { categories } = useCategories();
-
-  const filteredProducts = products?.filter(
-    (product) =>
-      selectedCategory === "" || product.category === selectedCategory
-  );
+    selectedCategory,
+    sortBy,
+    viewMode,
+    totalItems,
+    hasActiveFilters,
+    handleCategoryChange,
+    handleSortChange,
+    handleViewModeChange,
+    clearAllFilters,
+  } = useProductsForm();
 
   if (authLoading) {
     return (
@@ -99,17 +96,17 @@ export default function ProductsMain() {
             <Sidebar
               categories={categories}
               selectedCategory={selectedCategory}
-              onCategoryChange={setSelectedCategory}
+              onCategoryChange={handleCategoryChange}
             />
           </aside>
 
           <main className="flex-1">
             <Toolbar
-              itemCount={filteredProducts?.length || 0}
+              itemCount={totalItems}
               viewMode={viewMode}
-              onViewModeChange={setViewMode}
+              onViewModeChange={handleViewModeChange}
               sortBy={sortBy}
-              onSortChange={setSortBy}
+              onSortChange={handleSortChange}
             />
 
             <div className="bg-white px-4 py-2">
@@ -145,19 +142,23 @@ export default function ProductsMain() {
                     No products found
                   </h3>
                   <p className="text-gray-500 mb-6">
-                    Try adjusting your filters or search criteria
+                    {hasActiveFilters
+                      ? "Try adjusting your filters or search criteria"
+                      : "No products available at the moment"}
                   </p>
-                  <Button
-                    onClick={() => setSelectedCategory("")}
-                    className="bg-[#7DB800] hover:bg-[#6BA700] text-white"
-                  >
-                    Clear Filters
-                  </Button>
+                  {hasActiveFilters && (
+                    <Button
+                      onClick={clearAllFilters}
+                      className="bg-[#7DB800] hover:bg-[#6BA700] text-white"
+                    >
+                      Clear All Filters
+                    </Button>
+                  )}
                 </div>
               )}
             </div>
 
-            <div className="flex items-center justify-end bg-white  p-4">
+            <div className="flex items-center justify-end bg-white p-4">
               <div className="flex items-center text-gray-600 text-sm space-x-2">
                 <Typography
                   variant="small"

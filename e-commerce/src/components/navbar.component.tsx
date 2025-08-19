@@ -5,12 +5,8 @@ import { Button } from "@/components/button.component";
 import { Input } from "@/components/input.component";
 import { useAuth } from "@/hooks/use-auth.hook";
 import { useCart } from "@/hooks/use-cart.hook";
-import {
-  ChevronDown,
-  Menu,
-  Search,
-  X,
-} from "lucide-react";
+import { useWishlist } from "@/hooks/use-wishlist";
+import { ChevronDown, Menu, Search, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -19,23 +15,41 @@ import { SearchBar } from "./search-bar.component";
 import { Typography } from "./typography.component";
 
 const HeartIcon = ({ className = "h-8 w-8" }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+  <svg
+    viewBox="0 0 24 24"
+    className={className}
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+  >
+    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
   </svg>
 );
 
 const UserIcon = ({ className = "h-8 w-8" }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2">
-    <circle cx="12" cy="12" r="10"/>
-    <circle cx="12" cy="8" r="3"/>
-    <path d="M6.168 18.849A4 4 0 0 1 10 16h4a4 4 0 0 1 3.834 2.855"/>
+  <svg
+    viewBox="0 0 24 24"
+    className={className}
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+  >
+    <circle cx="12" cy="12" r="10" />
+    <circle cx="12" cy="8" r="3" />
+    <path d="M6.168 18.849A4 4 0 0 1 10 16h4a4 4 0 0 1 3.834 2.855" />
   </svg>
 );
 
 const ShoppingBagIcon = ({ className = "h-8 w-8" }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2">
-    <rect x="3" y="3" width="18" height="18" rx="2"/>
-    <path d="M8 9C8 9 9 12 12 12C15 12 16 9 16 9" strokeLinecap="square"/>
+  <svg
+    viewBox="0 0 24 24"
+    className={className}
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+  >
+    <rect x="3" y="3" width="18" height="18" rx="2" />
+    <path d="M8 9C8 9 9 12 12 12C15 12 16 9 16 9" strokeLinecap="square" />
   </svg>
 );
 
@@ -49,7 +63,8 @@ interface HeaderProps {
     | "sale"
     | "auth"
     | "restricted"
-    | "checkout";
+    | "checkout"
+    | "wishlist";
 }
 
 export function Navbar({ currentPage }: HeaderProps) {
@@ -59,8 +74,11 @@ export function Navbar({ currentPage }: HeaderProps) {
 
   const { isAuthenticated, user } = useAuth();
   const { getTotalItems, isLoading: cartLoading } = useCart();
+  const { getTotalItems: getWishlistTotalItems, isLoading: wishlistLoading } =
+    useWishlist();
 
   const totalItems = getTotalItems();
+  const totalWishlistItems = getWishlistTotalItems();
 
   const getCurrentPage = (): string => {
     if (currentPage) return currentPage;
@@ -74,6 +92,7 @@ export function Navbar({ currentPage }: HeaderProps) {
     if (pathname.startsWith("/auth")) return "auth";
     if (pathname.startsWith("/cart")) return "cart";
     if (pathname.startsWith("/checkout")) return "checkout";
+    if (pathname.startsWith("/wishlist")) return "wishlist";
     if (pathname.startsWith("/restricted")) return "restricted";
 
     return "home";
@@ -92,14 +111,16 @@ export function Navbar({ currentPage }: HeaderProps) {
 
   useEffect(() => {
     if (isAuthenticated) {
-      console.log("Navbar - Cart items count:", totalItems);
+      console.log("Cart items count:", totalItems);
+      console.log("Wishlist items count:", totalWishlistItems);
     }
-  }, [totalItems, isAuthenticated]);
+  }, [totalItems, totalWishlistItems, isAuthenticated]);
 
   const isHomePage = activePage === "home";
   const isAuthPage = activePage === "auth";
   const isCartPage = activePage === "cart";
   const isCheckoutPage = activePage === "checkout";
+  const isWishlistPage = activePage === "wishlist";
   const isRestrictedPage = activePage === "restricted";
   const shouldBeTransparent =
     isHomePage &&
@@ -107,6 +128,7 @@ export function Navbar({ currentPage }: HeaderProps) {
     !isAuthPage &&
     !isCartPage &&
     !isCheckoutPage &&
+    !isWishlistPage &&
     !isRestrictedPage;
 
   const navItems = [
@@ -140,12 +162,21 @@ export function Navbar({ currentPage }: HeaderProps) {
     }
   };
 
+  const handleWishlistNavigation = (e: React.MouseEvent) => {
+    if (!isAuthenticated) {
+      e.preventDefault();
+      window.location.href = `/restricted?redirect=${encodeURIComponent(
+        "/wishlist"
+      )}`;
+    } else {
+      console.log("Navigating to wishlist with items:", totalWishlistItems);
+    }
+  };
+
   const CartBadge = ({ className = "" }: { className?: string }) => {
     if (!isAuthenticated) {
       return null;
     }
-
-    const displayCount = cartLoading ? "..." : totalItems;
 
     if (totalItems === 0 && !cartLoading) {
       return (
@@ -168,6 +199,36 @@ export function Navbar({ currentPage }: HeaderProps) {
     );
   };
 
+  const WishlistBadge = ({ className = "" }: { className?: string }) => {
+    if (!isAuthenticated) {
+      return null;
+    }
+
+    if (totalWishlistItems === 0 && !wishlistLoading) {
+      return (
+        <Badge
+          variant="default"
+          className={`absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-[#E91E63] text-white ${className}`}
+        >
+          0
+        </Badge>
+      );
+    }
+
+    return (
+      <Badge
+        variant="default"
+        className={`absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-[#E91E63] text-white ${className}`}
+      >
+        {wishlistLoading
+          ? "..."
+          : totalWishlistItems > 99
+          ? "99+"
+          : totalWishlistItems}
+      </Badge>
+    );
+  };
+
   return (
     <>
       <header
@@ -179,7 +240,6 @@ export function Navbar({ currentPage }: HeaderProps) {
       >
         <div className="container-lg mx-auto px-4 lg:px-6">
           <div className="flex h-20 items-center justify-between">
-            
             <div className="flex md:hidden w-full items-center justify-between">
               <Button
                 variant="ghost"
@@ -192,7 +252,10 @@ export function Navbar({ currentPage }: HeaderProps) {
                 <Menu className="h-6 w-6" />
               </Button>
 
-              <Link href="/" className="flex items-center flex-1 justify-center">
+              <Link
+                href="/"
+                className="flex items-center flex-1 justify-center"
+              >
                 <Image
                   src="/logo.png"
                   alt="Logo"
@@ -212,6 +275,33 @@ export function Navbar({ currentPage }: HeaderProps) {
                 >
                   <Search className="h-8 w-8" />
                 </Button>
+
+                {isAuthenticated ? (
+                  <Link href="/wishlist">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className={`relative p-2 hover:bg-white/10 ${
+                        shouldBeTransparent ? "text-gray-800" : "text-white"
+                      }`}
+                      onClick={handleWishlistNavigation}
+                    >
+                      <HeartIcon className="h-7 w-7" />
+                      <WishlistBadge />
+                    </Button>
+                  </Link>
+                ) : (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className={`relative p-2 hover:bg-white/10 ${
+                      shouldBeTransparent ? "text-gray-800" : "text-white"
+                    }`}
+                    onClick={handleWishlistNavigation}
+                  >
+                    <HeartIcon className="h-8 w-8" />
+                  </Button>
+                )}
 
                 {isAuthenticated ? (
                   <Link href="/cart">
@@ -283,13 +373,32 @@ export function Navbar({ currentPage }: HeaderProps) {
                   </Button>
                 </div>
 
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="text-white hover:text-[#7DB800] hover:bg-white/10 p-3"
-                >
-                  <HeartIcon className="h-8 w-8" />
-                </Button>
+                {isAuthenticated ? (
+                  <Link href="/wishlist">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className={`relative hover:text-[#7DB800] hover:bg-white/10 p-3 ${
+                        isWishlistPage ? "text-[#7DB800]" : "text-white"
+                      }`}
+                      onClick={handleWishlistNavigation}
+                      title={`Wishlist (${totalWishlistItems} items)`}
+                    >
+                      <HeartIcon className="h-8 w-8" />
+                      <WishlistBadge />
+                    </Button>
+                  </Link>
+                ) : (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-white hover:text-[#E91E63] hover:bg-white/10 p-3"
+                    onClick={handleWishlistNavigation}
+                    title="Login to access wishlist"
+                  >
+                    <HeartIcon className="h-8 w-8" />
+                  </Button>
+                )}
 
                 <Link href="/auth">
                   <Button
@@ -317,6 +426,7 @@ export function Navbar({ currentPage }: HeaderProps) {
                         isCartPage ? "text-[#7DB800]" : "text-white"
                       }`}
                       onClick={handleCartNavigation}
+                      title={`Cart (${totalItems} items)`}
                     >
                       <ShoppingBagIcon className="h-8 w-8" />
                       <CartBadge />
@@ -330,6 +440,7 @@ export function Navbar({ currentPage }: HeaderProps) {
                       isCartPage ? "text-[#7DB800]" : "text-white"
                     }`}
                     onClick={handleCartNavigation}
+                    title="Login to access cart"
                   >
                     <ShoppingBagIcon className="h-8 w-8" />
                   </Button>
@@ -383,7 +494,6 @@ export function Navbar({ currentPage }: HeaderProps) {
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden">
           <div className="fixed inset-y-0 left-0 z-50 w-full max-w-sm bg-[#212121] shadow-lg">
-            
             <div className="flex h-16 items-center justify-between px-4 border-b border-gray-700">
               <Typography variant="h5" className="font-bold text-white">
                 Menu
@@ -416,8 +526,8 @@ export function Navbar({ currentPage }: HeaderProps) {
                         ? "text-[#7DB800] bg-[#7DB800]/10 border-l-4 border-[#7DB800]"
                         : "text-white hover:text-[#7DB800] hover:bg-white/5"
                     } ${
-                      item.requireAuth && !isAuthenticated 
-                        ? "opacity-60 cursor-not-allowed" 
+                      item.requireAuth && !isAuthenticated
+                        ? "opacity-60 cursor-not-allowed"
                         : ""
                     }`}
                   >
@@ -430,6 +540,41 @@ export function Navbar({ currentPage }: HeaderProps) {
                   </Button>
                 </Link>
               ))}
+
+              <Link
+                href="/wishlist"
+                onClick={(e) => {
+                  if (!isAuthenticated) {
+                    e.preventDefault();
+                    window.location.href = `/restricted?redirect=${encodeURIComponent(
+                      "/wishlist"
+                    )}`;
+                  }
+                  setIsMobileMenuOpen(false);
+                }}
+                className="block"
+              >
+                <Button
+                  variant="ghost"
+                  className={`w-full justify-start text-left h-12 px-4 text-base font-medium ${
+                    isWishlistPage
+                      ? "text-[#E91E63] bg-[#E91E63]/10 border-l-4 border-[#E91E63]"
+                      : "text-white hover:text-[#E91E63] hover:bg-white/5"
+                  } ${!isAuthenticated ? "opacity-60" : ""}`}
+                >
+                  My Wishlist
+                  {isAuthenticated && totalWishlistItems > 0 && (
+                    <span className="ml-auto text-xs bg-[#E91E63] text-white px-2 py-1 rounded-full">
+                      {totalWishlistItems}
+                    </span>
+                  )}
+                  {!isAuthenticated && (
+                    <span className="ml-auto text-xs text-gray-400">
+                      Login required
+                    </span>
+                  )}
+                </Button>
+              </Link>
             </nav>
 
             <div className="p-4 border-t border-gray-700 space-y-4">
@@ -467,7 +612,10 @@ export function Navbar({ currentPage }: HeaderProps) {
                       <UserIcon className="h-4 w-4 text-[#7DB800]" />
                       <span className="text-white">{user?.username}</span>
                     </div>
-                    <Link href="/auth" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Link
+                      href="/auth"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
                       <Button
                         variant="ghost"
                         size="sm"
@@ -488,7 +636,7 @@ export function Navbar({ currentPage }: HeaderProps) {
         className={`${
           shouldBeTransparent
             ? "h-0"
-            : isAuthPage || isRestrictedPage || isCheckoutPage
+            : isAuthPage || isRestrictedPage || isCheckoutPage || isWishlistPage
             ? "h-16"
             : "h-16 md:h-32"
         }`}

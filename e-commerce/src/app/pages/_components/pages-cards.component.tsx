@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 
 interface RelatedProduct {
   id: string;
@@ -58,9 +59,11 @@ export function PagesCards() {
                 className="relative bg-gray-100 mb-4"
                 style={{ height: "200px" }}
               >
-                <img
+                <Image
                   src={product.image}
                   alt={product.title}
+                  width={400}
+                  height={400}
                   className="w-full h-full object-cover"
                 />
               </div>

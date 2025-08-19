@@ -32,9 +32,8 @@ interface AuthProviderProps {
 const ACCESS_TOKEN_KEY = "auth_token";
 const USER_DATA_KEY = "user_data";
 
-// Progress bar configuration
-const PROGRESS_DURATION = 1800; // 2 seconds total
-const PROGRESS_INTERVAL = 60; // Update every 50ms
+const PROGRESS_DURATION = 1800;
+const PROGRESS_INTERVAL = 60;
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = React.useState<User | null>(null);
@@ -46,17 +45,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const pathname = usePathname();
   const isAuthenticated = Boolean(user);
 
-  // Static progress animation
   const startProgressAnimation = useCallback(() => {
     setProgress(0);
     const startTime = Date.now();
-    
+
     const interval = setInterval(() => {
       const elapsed = Date.now() - startTime;
-      const progressPercentage = Math.min((elapsed / PROGRESS_DURATION) * 100, 100);
-      
+      const progressPercentage = Math.min(
+        (elapsed / PROGRESS_DURATION) * 100,
+        100
+      );
+
       setProgress(progressPercentage);
-      
+
       if (progressPercentage >= 100) {
         clearInterval(interval);
       }
@@ -74,15 +75,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       setUser(response.user);
       window.dispatchEvent(new Event("authStateChanged"));
-      
+
       console.log("Login successful for user:", response.user.username);
-      
+
       return response;
     } catch (error) {
       console.error("Login error:", error);
       throw error;
     } finally {
-      // Wait for progress animation to complete
       setTimeout(() => {
         setIsLoading(false);
         clearInterval(progressInterval);
@@ -103,7 +103,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       clearAuth();
       console.log("Logout successful");
-      
+
       setTimeout(() => {
         router.replace("/auth");
         setIsLoading(false);
@@ -114,6 +114,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setIsLoading(false);
         clearInterval(progressInterval);
       }, PROGRESS_DURATION);
+      console.log("Error:", error);
     }
   };
 
@@ -124,7 +125,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setUser(updatedUser);
         localStorage.setItem(USER_DATA_KEY, JSON.stringify(updatedUser));
         window.dispatchEvent(new Event("authStateChanged"));
-        console.log("👤 User updated:", updatedUser);
       }
     },
     [user]
@@ -145,29 +145,48 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           const userData = JSON.parse(storedUser);
           setUser(userData);
         } else {
-          const protectedRoutes = ["/products", "/elements", "/pages", "/shop", "/sale", "/checkout"];
+          const protectedRoutes = [
+            "/products",
+            "/elements",
+            "/pages",
+            "/shop",
+            "/sale",
+            "/checkout",
+            "/wishlist",
+          ];
           const isOnProtectedRoute = protectedRoutes.some((route) =>
             pathname.startsWith(route)
           );
 
           if (isOnProtectedRoute) {
-            router.replace(`/restricted?redirect=${encodeURIComponent(pathname)}`);
+            router.replace(
+              `/restricted?redirect=${encodeURIComponent(pathname)}`
+            );
           }
         }
       } catch (error) {
         console.error("Auth initialization failed:", error);
         clearAuth();
 
-        const protectedRoutes = ["/products", "/elements", "/pages", "/shop", "/sale", "/checkout"];
+        const protectedRoutes = [
+          "/products",
+          "/elements",
+          "/pages",
+          "/shop",
+          "/sale",
+          "/checkout",
+          "/wishlist",
+        ];
         const isOnProtectedRoute = protectedRoutes.some((route) =>
           pathname.startsWith(route)
         );
 
         if (isOnProtectedRoute) {
-          router.replace(`/restricted?redirect=${encodeURIComponent(pathname)}`);
+          router.replace(
+            `/restricted?redirect=${encodeURIComponent(pathname)}`
+          );
         }
       } finally {
-        // Always wait for full progress animation
         setTimeout(() => {
           setIsLoading(false);
           clearInterval(progressInterval);
@@ -203,7 +222,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-[#7DB800] rounded-full blur-3xl animate-pulse"></div>
           <div className="absolute bottom-1/3 right-1/4 w-24 h-24 bg-[#7DB800] rounded-full blur-3xl animate-pulse delay-1000"></div>
         </div>
-        
+
         <div className="text-center space-y-8 z-10 relative">
           <div className="mb-8 animate-pulse">
             <Image
@@ -214,18 +233,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               className="object-contain mx-auto filter brightness-110"
             />
           </div>
-          
+
           <div className="space-y-4">
-            <p className="text-gray-400 text-sm">
-              Preparing your experience
-            </p>
+            <p className="text-gray-400 text-sm">Preparing your experience</p>
           </div>
-          
+
           <div className="w-80 max-w-md mx-auto space-y-3">
             <div className="relative">
               <Progress value={progress} className="h-3 bg-gray-700" />
             </div>
-            
+
             <div className="flex justify-between items-center">
               <p className="text-gray-400 text-xs">
                 {Math.round(progress)}% Complete

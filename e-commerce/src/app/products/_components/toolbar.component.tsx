@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/button.component";
 import { Typography } from "@/components/typography.component";
 import { ChevronDown } from "lucide-react";
 
@@ -88,13 +87,19 @@ export function Toolbar({
           </button>
         </div>
 
-        <Typography variant="small" className="text-gray-600 text-sm font-normal">
+        <Typography
+          variant="small"
+          className="text-gray-600 text-sm font-normal"
+        >
           Items 1-{Math.min(20, itemCount)} of {itemCount}
         </Typography>
       </div>
 
       <div className="flex items-center space-x-3">
-        <Typography variant="small" className="text-gray-600 text-sm font-normal">
+        <Typography
+          variant="small"
+          className="text-gray-600 text-sm font-normal"
+        >
           Sort by
         </Typography>
 

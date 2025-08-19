@@ -32,7 +32,7 @@ export function CartHeader({ title, customBreadcrumbs }: HeaderProps) {
             />
           </div>
 
-          <Typography 
+          <Typography
             variant="h1"
             className="text-4xl md:text-5xl lg:text-6xl text-white font-light"
           >

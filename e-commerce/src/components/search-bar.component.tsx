@@ -28,10 +28,10 @@ export function SearchBar({
         ${className}
       `}
       style={{
-        height: '44px',
-        borderRadius: '40px',
-        paddingLeft: '16px',
-        paddingRight: '16px'
+        height: "44px",
+        borderRadius: "40px",
+        paddingLeft: "16px",
+        paddingRight: "16px",
       }}
     >
       <Search className="h-4 w-4 text-gray-400 mr-3 flex-shrink-0" />
@@ -52,8 +52,8 @@ export function SearchBar({
           outline-none
         "
         style={{
-          height: '20px',
-          lineHeight: '20px'
+          height: "20px",
+          lineHeight: "20px",
         }}
         onChange={handleInputChange}
       />

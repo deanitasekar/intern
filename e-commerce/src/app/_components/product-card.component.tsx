@@ -18,10 +18,14 @@ interface ProductCardProps {
     badge?: string;
   };
   onClick?: () => void;
-  columnSide?: 'left' | 'right';
+  columnSide?: "left" | "right";
 }
 
-export function ProductCard({ product, onClick, columnSide = 'left' }: ProductCardProps) {
+export function ProductCard({
+  product,
+  onClick,
+  columnSide = "left",
+}: ProductCardProps) {
   const [imageError, setImageError] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -48,16 +52,16 @@ export function ProductCard({ product, onClick, columnSide = 'left' }: ProductCa
     );
   };
 
-  // Tentukan arah rotasi berdasarkan kolom
-  const hoverRotation = columnSide === 'left' ? 'hover:rotate-1' : 'hover:-rotate-1';
+  const hoverRotation =
+    columnSide === "left" ? "hover:rotate-1" : "hover:-rotate-1";
 
   return (
     <CardWrapper>
-      <div 
+      <div
         className={`masonry-card transition-all duration-300 ease-in-out transform-gpu hover:scale-105 ${hoverRotation} hover:shadow-lg hover:-translate-y-1`}
         style={{
-          transformStyle: 'preserve-3d',
-          perspective: '1000px'
+          transformStyle: "preserve-3d",
+          perspective: "1000px",
         }}
       >
         <div className="masonry-image">
@@ -100,7 +104,6 @@ export function ProductCard({ product, onClick, columnSide = 'left' }: ProductCa
         <div className="masonry-content">
           {product.category && (
             <div className="category-indicator flex items-center space-x-1">
-              
               <div className="w-4 h-4 rounded-full bg-lime-50 flex items-center justify-center border border-lime-100">
                 <Plus className="h-3 w-3" style={{ color: "#7DB800" }} />
               </div>

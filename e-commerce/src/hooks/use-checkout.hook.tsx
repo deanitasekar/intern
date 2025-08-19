@@ -37,7 +37,7 @@ export const useCheckout = () => {
       country: "",
       state: "",
       zipCode: "",
-      phone: ""
+      phone: "",
     },
     billing: {
       sameAsShipping: true,
@@ -49,49 +49,49 @@ export const useCheckout = () => {
       country: "",
       state: "",
       zipCode: "",
-      phone: ""
+      phone: "",
     },
     shippingMethod: "fixed",
-    paymentMethod: "check"
+    paymentMethod: "check",
   });
 
   const [currentStep, setCurrentStep] = useState(1);
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
 
-  const updateShipping = (shippingData: Partial<CheckoutData['shipping']>) => {
-    setCheckoutData(prev => ({
+  const updateShipping = (shippingData: Partial<CheckoutData["shipping"]>) => {
+    setCheckoutData((prev) => ({
       ...prev,
-      shipping: { ...prev.shipping, ...shippingData }
+      shipping: { ...prev.shipping, ...shippingData },
     }));
   };
 
-  const updateBilling = (billingData: Partial<CheckoutData['billing']>) => {
-    setCheckoutData(prev => ({
+  const updateBilling = (billingData: Partial<CheckoutData["billing"]>) => {
+    setCheckoutData((prev) => ({
       ...prev,
-      billing: { ...prev.billing, ...billingData }
+      billing: { ...prev.billing, ...billingData },
     }));
   };
 
-  const updateShippingMethod = (method: CheckoutData['shippingMethod']) => {
-    setCheckoutData(prev => ({
+  const updateShippingMethod = (method: CheckoutData["shippingMethod"]) => {
+    setCheckoutData((prev) => ({
       ...prev,
-      shippingMethod: method
+      shippingMethod: method,
     }));
   };
 
-  const updatePaymentMethod = (method: CheckoutData['paymentMethod']) => {
-    setCheckoutData(prev => ({
+  const updatePaymentMethod = (method: CheckoutData["paymentMethod"]) => {
+    setCheckoutData((prev) => ({
       ...prev,
-      paymentMethod: method
+      paymentMethod: method,
     }));
   };
 
   const goToNextStep = () => {
-    setCurrentStep(prev => prev + 1);
+    setCurrentStep((prev) => prev + 1);
   };
 
   const goToPreviousStep = () => {
-    setCurrentStep(prev => prev - 1);
+    setCurrentStep((prev) => prev - 1);
   };
 
   const processOrder = async (cartData: any[], totalAmount: number) => {
@@ -102,19 +102,21 @@ export const useCheckout = () => {
       const orderData = {
         orderNumber: newOrderNumber,
         customer: checkoutData.shipping,
-        billing: checkoutData.billing.sameAsShipping ? checkoutData.shipping : checkoutData.billing,
+        billing: checkoutData.billing.sameAsShipping
+          ? checkoutData.shipping
+          : checkoutData.billing,
         shippingMethod: checkoutData.shippingMethod,
         paymentMethod: checkoutData.paymentMethod,
         items: cartData,
         total: totalAmount,
-        date: new Date().toISOString()
+        date: new Date().toISOString(),
       };
 
       console.log("Processing order:", orderData);
 
-      const existingOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+      const existingOrders = JSON.parse(localStorage.getItem("orders") || "[]");
       existingOrders.push(orderData);
-      localStorage.setItem('orders', JSON.stringify(existingOrders));
+      localStorage.setItem("orders", JSON.stringify(existingOrders));
 
       return { success: true, orderNumber: newOrderNumber };
     } catch (error) {
@@ -133,7 +135,7 @@ export const useCheckout = () => {
         country: "",
         state: "",
         zipCode: "",
-        phone: ""
+        phone: "",
       },
       billing: {
         sameAsShipping: true,
@@ -145,17 +147,17 @@ export const useCheckout = () => {
         country: "",
         state: "",
         zipCode: "",
-        phone: ""
+        phone: "",
       },
       shippingMethod: "fixed",
-      paymentMethod: "check"
+      paymentMethod: "check",
     });
     setCurrentStep(1);
     setOrderNumber(null);
   };
 
   const getShippingCost = () => {
-    return checkoutData.shippingMethod === "fixed" ? 5.00 : 15.00;
+    return checkoutData.shippingMethod === "fixed" ? 5.0 : 15.0;
   };
 
   const validateShipping = () => {
@@ -173,7 +175,7 @@ export const useCheckout = () => {
     if (checkoutData.billing.sameAsShipping) {
       return validateShipping();
     }
-    
+
     const { billing } = checkoutData;
     return (
       billing.firstName.trim() !== "" &&
@@ -198,6 +200,6 @@ export const useCheckout = () => {
     resetCheckout,
     getShippingCost,
     validateShipping,
-    validateBilling
+    validateBilling,
   };
 };

@@ -21,8 +21,6 @@ export default function Success({
   subtotal,
   shippingRate,
   shippingInfo,
-  handleContinueShopping,
-  handleViewOrders,
 }: SuccessProps) {
   return (
     <div className="max-w-3xl mx-auto">
@@ -37,7 +35,7 @@ export default function Success({
           Your order #{orderNumber} has been placed successfully.
         </p>
         <p className="text-gray-500">
-          We'll send you an email confirmation shortly.
+          We&apos;ll send you an email confirmation shortly.
         </p>
       </div>
 

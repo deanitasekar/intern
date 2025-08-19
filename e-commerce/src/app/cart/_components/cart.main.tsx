@@ -2,40 +2,28 @@
 
 import { useAuthGuard } from "@/components/auth-middleware.component";
 import { Button } from "@/components/button.component";
-import { useAuth } from "@/hooks/use-auth.hook";
 import { useCartOperations } from "../_hooks/cart-operations.hook";
 import { Loader2, ShoppingCart } from "lucide-react";
 import { CartHeader } from "./cart-header.component";
 import { CartItem } from "./cart-item.component";
 import { CartSummary } from "./cart-summary.component";
 import { Discount } from "./discount.component";
+import Image from "next/image";
 
 export default function CartMain() {
   const { isAllowed, isLoading: authLoading } = useAuthGuard();
-  const { user, isAuthenticated } = useAuth();
-  
+
   const {
-    // Cart data
     cart,
     isLoading,
     isUpdating,
-    totalItems,
-    
-    // Calculations
     subtotal,
     tax,
     shippingRate,
     total,
-    
-    // Cart operations
     handleUpdateQuantity,
     removeItem,
-    handleClearCart,
-    
-    // Calculations handlers
     handleShippingChange,
-    
-    // Cart actions
     handleApplyDiscount,
     handleUpdateCart,
     handleCheckout,
@@ -115,17 +103,20 @@ export default function CartMain() {
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 lg:gap-4">
           <div className="xl:col-span-3">
             <div className="bg-white">
-              {/* Mobile Card Layout */}
               <div className="block lg:hidden space-y-4">
                 {cart.map((product: any) => (
-                  <div key={product.id} className="border border-gray-200 rounded-lg p-4">
+                  <div
+                    key={product.id}
+                    className="border border-gray-200 rounded-lg p-4"
+                  >
                     <div className="flex flex-col space-y-3">
-                      {/* Image and basic info row */}
                       <div className="flex space-x-4">
                         <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 overflow-hidden rounded flex-shrink-0">
-                          <img
+                          <Image
                             src={product.image}
                             alt={product.title}
+                            width={20}
+                            height={20}
                             className="w-full h-full object-contain p-1"
                           />
                         </div>
@@ -134,7 +125,7 @@ export default function CartMain() {
                             <span className="text-sm sm:text-base font-medium text-gray-900">
                               ${product.price.toFixed(2)}
                             </span>
-                            <button 
+                            <button
                               className="text-xs text-gray-500 hover:text-red-600 underline"
                               onClick={() => removeItem(product.id)}
                             >
@@ -143,14 +134,27 @@ export default function CartMain() {
                           </div>
                           <div className="flex items-center justify-between">
                             <div className="text-xs sm:text-sm text-gray-500">
-                              <div>Size: {"size" in product ? (product as any).size : "29"}</div>
-                              <div>Color: {"color" in product ? (product as any).color : "Green"}</div>
+                              <div>
+                                Size:{" "}
+                                {"size" in product
+                                  ? (product as any).size
+                                  : "29"}
+                              </div>
+                              <div>
+                                Color:{" "}
+                                {"color" in product
+                                  ? (product as any).color
+                                  : "Green"}
+                              </div>
                             </div>
                             <div className="flex items-center border border-gray-300 rounded">
                               <button
                                 onClick={() => {
                                   if (product.quantity > 1) {
-                                    handleUpdateQuantity(product.id, product.quantity - 1);
+                                    handleUpdateQuantity(
+                                      product.id,
+                                      product.quantity - 1
+                                    );
                                   } else {
                                     removeItem(product.id);
                                   }
@@ -163,7 +167,12 @@ export default function CartMain() {
                                 {product.quantity}
                               </span>
                               <button
-                                onClick={() => handleUpdateQuantity(product.id, product.quantity + 1)}
+                                onClick={() =>
+                                  handleUpdateQuantity(
+                                    product.id,
+                                    product.quantity + 1
+                                  )
+                                }
                                 className="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100"
                               >
                                 +
@@ -173,13 +182,14 @@ export default function CartMain() {
                         </div>
                       </div>
 
-                      {/* Product title below */}
                       <div className="space-y-2">
                         <h3 className="text-sm sm:text-base font-medium text-gray-900 leading-5">
                           {product.title}
                         </h3>
                         <div className="flex items-center justify-between">
-                          <span className="text-xs text-gray-500">Subtotal:</span>
+                          <span className="text-xs text-gray-500">
+                            Subtotal:
+                          </span>
                           <span className="text-sm sm:text-base font-semibold text-gray-900">
                             ${(product.price * product.quantity).toFixed(2)}
                           </span>
@@ -190,7 +200,6 @@ export default function CartMain() {
                 ))}
               </div>
 
-              {/* Desktop Table Layout */}
               <div className="hidden lg:block">
                 <div className="overflow-x-auto">
                   <table className="w-full min-w-[800px]">

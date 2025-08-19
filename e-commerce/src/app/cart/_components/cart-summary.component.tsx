@@ -16,21 +16,22 @@ interface CartSummaryProps {
 export function CartSummary({
   subtotal,
   tax,
-  shipping,
   total,
   onShippingChange,
   onCheckout,
 }: CartSummaryProps) {
   return (
     <div className="bg-gray-50 rounded-lg p-4 sm:p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Summary</h3>
-      
-      {/* Border after Summary title */}
+      <h3 className="text-lg font-semibold text-gray-900 mb-3 sm:mb-4">
+        Summary
+      </h3>
+
       <div className="border-b border-gray-200 mb-4 sm:mb-6"></div>
 
-      {/* Estimate Shipping and Tax with chevron up */}
       <div className="flex items-center justify-between mb-4 sm:mb-5">
-        <span className="text-sm font-medium text-gray-600">Estimate Shipping and Tax</span>
+        <span className="text-sm font-medium text-gray-600">
+          Estimate Shipping and Tax
+        </span>
         <ChevronUp className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500 flex-shrink-0" />
       </div>
 

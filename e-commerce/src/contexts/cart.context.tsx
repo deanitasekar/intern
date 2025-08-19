@@ -49,9 +49,9 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   React.useEffect(() => {
     if (!isClient || !isLoading) return;
-    
+
     const interval = setInterval(() => {
-      setProgress(prev => {
+      setProgress((prev) => {
         if (prev >= 100) return 100;
         return prev + Math.random() * 15;
       });
@@ -60,80 +60,96 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     return () => clearInterval(interval);
   }, [isClient, isLoading]);
 
-  const saveCartToStorage = useCallback((newCart: CartItem[]) => {
-    if (isClient) {
-      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(newCart));
-      window.dispatchEvent(new Event("cartStateChanged"));
-    }
-  }, [isClient]);
+  const saveCartToStorage = useCallback(
+    (newCart: CartItem[]) => {
+      if (isClient) {
+        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(newCart));
+        window.dispatchEvent(new Event("cartStateChanged"));
+      }
+    },
+    [isClient]
+  );
 
-  const addToCart = useCallback((product: Product, quantity: number = 1) => {
-    setIsLoading(true);
+  const addToCart = useCallback(
+    (product: Product, quantity: number = 1) => {
+      setIsLoading(true);
 
-    try {
-      setCart((prevCart) => {
-        const existingItem = prevCart.find(
-          (cartItem) => cartItem.id === product.id
-        );
-        
-        let newCart: CartItem[];
-
-        if (existingItem) {
-          newCart = prevCart.map((cartItem) =>
-            cartItem.id === product.id
-              ? { ...cartItem, quantity: cartItem.quantity + quantity }
-              : cartItem
+      try {
+        setCart((prevCart) => {
+          const existingItem = prevCart.find(
+            (cartItem) => cartItem.id === product.id
           );
-        } else {
-          newCart = [...prevCart, { ...product, quantity }];
-        }
+
+          let newCart: CartItem[];
+
+          if (existingItem) {
+            newCart = prevCart.map((cartItem) =>
+              cartItem.id === product.id
+                ? { ...cartItem, quantity: cartItem.quantity + quantity }
+                : cartItem
+            );
+          } else {
+            newCart = [...prevCart, { ...product, quantity }];
+          }
+
+          saveCartToStorage(newCart);
+          console.log("Added to cart:", product.title);
+          return newCart;
+        });
+      } catch (error) {
+        console.error("Add to cart error:", error);
+        throw error;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [saveCartToStorage]
+  );
+
+  const updateQuantity = useCallback(
+    (productId: number, newQuantity: number) => {
+      if (newQuantity <= 0) {
+        removeFromCart(productId);
+        return;
+      }
+
+      setCart((prevCart) => {
+        const newCart = prevCart.map((cartItem) =>
+          cartItem.id === productId
+            ? { ...cartItem, quantity: newQuantity }
+            : cartItem
+        );
 
         saveCartToStorage(newCart);
-        console.log("Added to cart:", product.title);
+        console.log(
+          "Updated quantity for product:",
+          productId,
+          "to:",
+          newQuantity
+        );
         return newCart;
       });
-    } catch (error) {
-      console.error("Add to cart error:", error);
-      throw error;
-    } finally {
-      setIsLoading(false);
-    }
-  }, [saveCartToStorage]);
+    },
+    [saveCartToStorage]
+  );
 
-  const updateQuantity = useCallback((productId: number, newQuantity: number) => {
-    if (newQuantity <= 0) {
-      removeFromCart(productId);
-      return;
-    }
-
-    setCart((prevCart) => {
-      const newCart = prevCart.map((cartItem) =>
-        cartItem.id === productId
-          ? { ...cartItem, quantity: newQuantity }
-          : cartItem
-      );
-
-      saveCartToStorage(newCart);
-      console.log("Updated quantity for product:", productId, "to:", newQuantity);
-      return newCart;
-    });
-  }, [saveCartToStorage]);
-
-  const removeFromCart = useCallback((productId: number) => {
-    setCart((prevCart) => {
-      const newCart = prevCart.filter((item) => item.id !== productId);
-      saveCartToStorage(newCart);
-      console.log("Removed from cart:", productId);
-      return newCart;
-    });
-  }, [saveCartToStorage]);
+  const removeFromCart = useCallback(
+    (productId: number) => {
+      setCart((prevCart) => {
+        const newCart = prevCart.filter((item) => item.id !== productId);
+        saveCartToStorage(newCart);
+        console.log("Removed from cart:", productId);
+        return newCart;
+      });
+    },
+    [saveCartToStorage]
+  );
 
   const clearCart = useCallback(() => {
     setCart([]);
     if (isClient) {
       localStorage.removeItem(CART_STORAGE_KEY);
       window.dispatchEvent(new Event("cartStateChanged"));
-      console.log("Cart cleared");
     }
   }, [isClient]);
 
@@ -145,13 +161,19 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
   }, [cart]);
 
-  const isInCart = useCallback((productId: number) => {
-    return cart.some((item) => item.id === productId);
-  }, [cart]);
+  const isInCart = useCallback(
+    (productId: number) => {
+      return cart.some((item) => item.id === productId);
+    },
+    [cart]
+  );
 
-  const getCartItem = useCallback((productId: number) => {
-    return cart.find((item) => item.id === productId);
-  }, [cart]);
+  const getCartItem = useCallback(
+    (productId: number) => {
+      return cart.find((item) => item.id === productId);
+    },
+    [cart]
+  );
 
   React.useEffect(() => {
     setIsClient(true);
@@ -205,15 +227,6 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     };
   }, [isClient]);
 
-  React.useEffect(() => {
-    console.log("Cart State Debug:", {
-      cartItemsCount: cart.length,
-      totalItems: getTotalItems(),
-      totalPrice: getTotalPrice(),
-      isLoading,
-    });
-  }, [cart, isLoading, getTotalItems, getTotalPrice]);
-
   const contextValue: CartContextType = {
     cart,
     isLoading,
@@ -234,7 +247,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
           <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-[#7DB800] rounded-full blur-3xl animate-pulse"></div>
           <div className="absolute bottom-1/3 right-1/4 w-24 h-24 bg-[#7DB800] rounded-full blur-3xl animate-pulse delay-1000"></div>
         </div>
-        
+
         <div className="text-center space-y-8 z-10 relative">
           <div className="mb-8 animate-pulse">
             <Image
@@ -245,22 +258,20 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
               className="object-contain mx-auto filter brightness-110"
             />
           </div>
-          
+
           <div className="space-y-4">
-            <p className="text-gray-400 text-sm">
-              Preparing your experience
-            </p>
+            <p className="text-gray-400 text-sm">Preparing your experience</p>
           </div>
-          
+
           <div className="w-80 max-w-md mx-auto space-y-3">
             <div className="relative">
               <Progress value={progress} className="h-3 bg-gray-700" />
-              <div 
+              <div
                 className="absolute top-0 left-0 h-3 bg-gradient-to-r from-[#7DB800] to-[#9ACD32] rounded-full transition-all duration-300 ease-out opacity-30 blur-sm"
                 style={{ width: `${progress}%` }}
               ></div>
             </div>
-            
+
             <div className="flex justify-between items-center">
               <p className="text-gray-400 text-xs">
                 {Math.round(progress)}% Complete
@@ -278,9 +289,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   }
 
   return (
-    <CartContext.Provider value={contextValue}>
-      {children}
-    </CartContext.Provider>
+    <CartContext.Provider value={contextValue}>{children}</CartContext.Provider>
   );
 };
 

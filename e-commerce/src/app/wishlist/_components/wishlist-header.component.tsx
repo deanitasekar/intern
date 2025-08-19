@@ -2,6 +2,7 @@
 
 import { Breadcrumb } from "@/components/breadcrumb.component";
 import { Typography } from "@/components/typography.component";
+
 import { BreadcrumbItem, useBreadcrumb } from "@/hooks/use-breadcrumb.hook";
 
 interface HeaderProps {
@@ -9,9 +10,8 @@ interface HeaderProps {
   customBreadcrumbs?: BreadcrumbItem[];
 }
 
-export function ProductHeader({ title, customBreadcrumbs }: HeaderProps) {
+export function WishlistHeader({ title, customBreadcrumbs }: HeaderProps) {
   const breadcrumbs = useBreadcrumb(customBreadcrumbs);
-
   return (
     <section
       className="relative min-h-[40vh] flex items-center justify-start bg-cover bg-center bg-no-repeat"
@@ -31,11 +31,12 @@ export function ProductHeader({ title, customBreadcrumbs }: HeaderProps) {
               className="text-xs font-normal tracking-wide"
             />
           </div>
+
           <Typography
             variant="h1"
-            className="text-[40px] text-white font-light"
+            className="text-4xl md:text-5xl lg:text-6xl text-white font-light"
           >
-            {title}
+            {title || "Wishlist"}
           </Typography>
         </div>
       </div>

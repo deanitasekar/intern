@@ -95,7 +95,6 @@ export function FeaturedProducts() {
           !isLoading && (
             <>
               <div className="masonry-container mb-8">
-                {/* Kolom Kiri - Tilted ke Kiri */}
                 <div className="masonry-column">
                   {leftColumn.map((product) => (
                     <div key={product.id} className="masonry-item">
@@ -119,7 +118,6 @@ export function FeaturedProducts() {
                   ))}
                 </div>
 
-                {/* Kolom Kanan - Tilted ke Kanan */}
                 <div className="masonry-column">
                   {rightColumn.map((product) => (
                     <div key={product.id} className="masonry-item">

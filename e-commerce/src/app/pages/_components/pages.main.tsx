@@ -28,11 +28,11 @@ export default function PagesMain() {
   return (
     <div className="min-h-screen bg-white">
       <PagesHeader title="Simple Wood Chair Collection" />
-      
-      <PagesContent/>
-      
+
+      <PagesContent />
+
       <PagesRelated />
-      
+
       <PagesCards />
     </div>
   );

@@ -6,7 +6,7 @@ import { useCheckout } from "@/hooks/use-checkout.hook";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-type CheckoutStep = 'shipping' | 'review' | 'success';
+type CheckoutStep = "shipping" | "review" | "success";
 
 export const useCheckoutForm = () => {
   const router = useRouter();
@@ -20,25 +20,28 @@ export const useCheckoutForm = () => {
     processOrder,
     getShippingCost,
     validateShipping,
-    validateBilling
   } = useCheckout();
-  
-  const [currentStep, setCurrentStep] = useState<CheckoutStep>('shipping');
+
+  const [currentStep, setCurrentStep] = useState<CheckoutStep>("shipping");
   const [orderSummary, setOrderSummary] = useState<any>(null);
   const [discountCode, setDiscountCode] = useState("SALE2020");
 
   const [loginForm, setLoginForm] = useState({
     email: "daisy.watson@example.com",
     password: "****************",
-    zipCode: ""
+    zipCode: "",
   });
 
   const shippingInfo = {
-    name: `${checkoutData.shipping.firstName} ${checkoutData.shipping.lastName}` || "Veronica Costello",
-    address: checkoutData.shipping.streetAddress1 || "6146 Honey Bluff Parkway",
-    city: `${checkoutData.shipping.state}, ${checkoutData.shipping.country}` || "Calder, Michigan, 49628-7978",
+    name:
+      `${checkoutData.shipping.firstName} ${checkoutData.shipping.lastName}` ||
+      "Veronica Costello",
+    address: checkoutData.shipping.streetAddress || "6146 Honey Bluff Parkway",
+    city:
+      `${checkoutData.shipping.state}, ${checkoutData.shipping.country}` ||
+      "Calder, Michigan, 49628-7978",
     country: checkoutData.shipping.country || "United States",
-    phone: checkoutData.shipping.phone || "T: (555) 229-3326"
+    phone: checkoutData.shipping.phone || "T: (555) 229-3326",
   };
 
   const subtotal = getTotalPrice();
@@ -56,15 +59,15 @@ export const useCheckoutForm = () => {
       alert("Please fill in all required fields");
       return;
     }
-    setCurrentStep('review');
+    setCurrentStep("review");
   };
 
   const handleBackToShipping = () => {
-    setCurrentStep('shipping');
+    setCurrentStep("shipping");
   };
 
   const handleBackToCart = () => {
-    router.push('/cart');
+    router.push("/cart");
   };
 
   const handleApplyDiscount = () => {
@@ -73,41 +76,47 @@ export const useCheckoutForm = () => {
 
   const handlePlaceOrder = async () => {
     console.log("Placing order...");
-    
+
     try {
       const result = await processOrder(cart, orderTotal);
-      
+
       if (result.success) {
         const realOrderSummary = {
           orderNumber: result.orderNumber,
           orderDate: new Date(),
-          items: cart.map(item => ({
+          items: cart.map((item) => ({
             id: item.id,
             title: item.title,
             price: item.price,
             quantity: item.quantity,
             image: item.image,
-            total: item.price * item.quantity
+            total: item.price * item.quantity,
           })),
           subtotal,
           shippingRate,
           tax,
           orderTotal,
-          shippingMethod: checkoutData.shippingMethod === "fixed" ? "Fixed - Flat Rate" : "Table Rate - Best Way",
-          paymentMethod: checkoutData.paymentMethod === "check" ? "Check / Money Order" : "Credit Card",
+          shippingMethod:
+            checkoutData.shippingMethod === "fixed"
+              ? "Fixed - Flat Rate"
+              : "Table Rate - Best Way",
+          paymentMethod:
+            checkoutData.paymentMethod === "check"
+              ? "Check / Money Order"
+              : "Credit Card",
           shippingInfo: {
             name: `${checkoutData.shipping.firstName} ${checkoutData.shipping.lastName}`,
             company: checkoutData.shipping.company,
-            address: checkoutData.shipping.streetAddress1,
+            address: checkoutData.shipping.streetAddress,
             city: checkoutData.shipping.state,
             country: checkoutData.shipping.country,
-            phone: checkoutData.shipping.phone
-          }
+            phone: checkoutData.shipping.phone,
+          },
         };
 
         setOrderSummary(realOrderSummary);
         clearCart();
-        setCurrentStep('success');
+        setCurrentStep("success");
       } else {
         alert("Failed to process order. Please try again.");
       }
@@ -118,11 +127,11 @@ export const useCheckoutForm = () => {
   };
 
   const handleContinueShopping = () => {
-    router.push('/');
+    router.push("/");
   };
 
   const handleViewOrders = () => {
-    router.push('/account/orders');
+    router.push("/account/orders");
   };
 
   return {

@@ -32,7 +32,10 @@ export const EmailInput = forwardRef<HTMLInputElement, EmailInputProps>(
     };
 
     return (
-      <form onSubmit={handleSubmit} className={cn("relative w-full max-w-[340px]", className)}>
+      <form
+        onSubmit={handleSubmit}
+        className={cn("relative w-full max-w-[340px]", className)}
+      >
         <div className="relative flex items-center">
           <Input
             ref={ref}
@@ -42,7 +45,7 @@ export const EmailInput = forwardRef<HTMLInputElement, EmailInputProps>(
             onChange={(e) => onChange?.(e.target.value)}
             disabled={disabled}
             className="h-14 pr-14 pl-6 bg-white border-0 text-gray-700 placeholder:text-gray-400 shadow-sm focus:shadow-md transition-shadow text-base w-full"
-            style={{ borderRadius: '40px' }}
+            style={{ borderRadius: "40px" }}
             required
             {...props}
           />
@@ -51,7 +54,7 @@ export const EmailInput = forwardRef<HTMLInputElement, EmailInputProps>(
             size="icon"
             disabled={disabled}
             className="absolute right-1 h-12 w-12 bg-transparent hover:bg-transparent border-0 shadow-none focus:shadow-none focus-visible:ring-0 focus-visible:border-transparent"
-            style={{ borderRadius: '40px' }}
+            style={{ borderRadius: "40px" }}
           >
             <ArrowRight className="h-5 w-5 text-[#7DB800]" />
             <span className="sr-only">Subscribe to newsletter</span>

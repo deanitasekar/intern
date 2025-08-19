@@ -15,7 +15,7 @@ export const productService = {
     if (sort) params.append("sort", sort);
 
     const response = await apiClient.get(`/products?${params.toString()}`);
-    console.log(`/products?${params.toString()}`)
+    console.log(`/products?${params.toString()}`);
     return response.data;
   },
 

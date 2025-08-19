@@ -20,11 +20,8 @@ interface PaymentProps {
 }
 
 export default function Payment({
-  paymentMethod,
-  setPaymentMethod,
   discountCode,
   setDiscountCode,
-  shippingInfo,
   handleBackToShipping,
   handleApplyDiscount,
   handlePlaceOrder,

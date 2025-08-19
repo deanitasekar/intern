@@ -37,7 +37,9 @@ const pathLabels: BreadcrumbConfig = {
   "/wishlist": { label: "Wishlist" },
 };
 
-export function useBreadcrumb(customItems?: BreadcrumbItem[]): BreadcrumbItem[] {
+export function useBreadcrumb(
+  customItems?: BreadcrumbItem[]
+): BreadcrumbItem[] {
   const pathname = usePathname();
 
   return useMemo(() => {
@@ -46,38 +48,38 @@ export function useBreadcrumb(customItems?: BreadcrumbItem[]): BreadcrumbItem[] 
     }
 
     const pathSegments = pathname.split("/").filter(Boolean);
-    
+
     if (pathSegments.length === 0) {
       return [{ label: "Home", href: "/", current: true }];
     }
 
-    const breadcrumbs: BreadcrumbItem[] = [
-    ];
-    
+    const breadcrumbs: BreadcrumbItem[] = [];
+
     let currentPath = "";
 
     pathSegments.forEach((segment, index) => {
       currentPath += `/${segment}`;
       const isLast = index === pathSegments.length - 1;
-      
+
       const isDynamicId = /^\d+$/.test(segment);
-      
+
       let label = "";
-      let href = currentPath;
+      const href = currentPath;
 
       if (isDynamicId) {
         const parentPath = currentPath.replace(`/${segment}`, "/[id]");
         label = pathLabels[parentPath]?.label || "Details";
       } else {
-        label = pathLabels[currentPath]?.label || 
-                pathLabels[currentPath.replace(/\/\d+/, "/[id]")]?.label ||
-                segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, " ");
+        label =
+          pathLabels[currentPath]?.label ||
+          pathLabels[currentPath.replace(/\/\d+/, "/[id]")]?.label ||
+          segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, " ");
       }
 
       breadcrumbs.push({
         label,
         href: isLast ? undefined : href,
-        current: isLast
+        current: isLast,
       });
     });
 
@@ -85,9 +87,11 @@ export function useBreadcrumb(customItems?: BreadcrumbItem[]): BreadcrumbItem[] 
   }, [pathname, customItems]);
 }
 
-export function createBreadcrumb(items: Array<{ label: string; href?: string }>): BreadcrumbItem[] {
+export function createBreadcrumb(
+  items: Array<{ label: string; href?: string }>
+): BreadcrumbItem[] {
   return items.map((item, index) => ({
     ...item,
-    current: index === items.length - 1
+    current: index === items.length - 1,
   }));
 }

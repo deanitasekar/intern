@@ -20,9 +20,7 @@ export default function ProductsIdMain() {
         <Navbar />
         <div className="flex items-center justify-center h-96">
           <div className="text-center">
-            <div
-              className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#7DB800] mx-auto mb-4"
-            ></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#7DB800] mx-auto mb-4"></div>
             <p className="text-gray-600">Loading product</p>
           </div>
         </div>
@@ -38,7 +36,8 @@ export default function ProductsIdMain() {
           <div className="text-center">
             <h3 className="text-xl text-red-600 mb-4">Product not found</h3>
             <p className="text-gray-600 mb-6">
-              The product you're looking for doesn't exist or has been removed.
+              The product you&apos;re looking for doesn&apos;t exist or has been
+              removed.
             </p>
             <button
               onClick={() => router.back()}

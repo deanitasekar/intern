@@ -262,7 +262,9 @@ export default function Shipping({
                   name="shipping"
                   value="fixed"
                   checked={selectedShipping === "fixed"}
-                  onChange={(e) => setSelectedShipping(e.target.value as "fixed")}
+                  onChange={(e) =>
+                    setSelectedShipping(e.target.value as "fixed")
+                  }
                   className="h-4 w-4 text-[#7DB800] focus:ring-[#7DB800] border-gray-300"
                 />
                 <label htmlFor="fixed" className="ml-3 text-sm text-gray-700">
@@ -273,7 +275,7 @@ export default function Shipping({
               <span className="text-sm text-gray-700">Flat Rate</span>
               <div></div>
             </div>
-            
+
             <div className="grid grid-cols-4 gap-2 items-center">
               <div className="flex items-center">
                 <input
@@ -282,7 +284,9 @@ export default function Shipping({
                   name="shipping"
                   value="table"
                   checked={selectedShipping === "table"}
-                  onChange={(e) => setSelectedShipping(e.target.value as "table")}
+                  onChange={(e) =>
+                    setSelectedShipping(e.target.value as "table")
+                  }
                   className="h-4 w-4 text-[#7DB800] focus:ring-[#7DB800] border-gray-300"
                 />
                 <label htmlFor="table" className="ml-3 text-sm text-gray-700">

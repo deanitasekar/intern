@@ -1,9 +1,9 @@
 "use client";
 import { useContext } from "react";
 import { AuthContext, type AuthContextType } from "@/contexts/auth.context";
-import useSWR from 'swr';
-import { authService } from '@/services/auth.service';
-import { User } from '@/types/auth.type';
+import useSWR from "swr";
+import { authService } from "@/services/auth.service";
+import { User } from "@/types/auth.type";
 
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
@@ -13,9 +13,9 @@ export const useAuth = (): AuthContextType => {
   return context;
 };
 
-export const useUsers = (limit?: number, sort?: 'asc' | 'desc') => {
+export const useUsers = (limit?: number, sort?: "asc" | "desc") => {
   const { data, error, isLoading, mutate } = useSWR(
-    ['users', limit, sort],
+    ["users", limit, sort],
     () => authService.getUsers(limit, sort),
     {
       revalidateOnFocus: false,
@@ -33,7 +33,7 @@ export const useUsers = (limit?: number, sort?: 'asc' | 'desc') => {
 
 export const useUser = (id: number) => {
   const { data, error, isLoading, mutate } = useSWR(
-    id ? ['user', id] : null,
+    id ? ["user", id] : null,
     () => authService.getUser(id),
     {
       revalidateOnFocus: false,

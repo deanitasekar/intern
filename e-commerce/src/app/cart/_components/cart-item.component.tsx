@@ -1,6 +1,7 @@
 "use client";
 
 import { Plus, Minus } from "lucide-react";
+import Image from "next/image";
 
 interface CartItemProps {
   product: {
@@ -39,9 +40,11 @@ export function CartItem({
     <tr>
       <td className="py-4">
         <div className="w-30 h-30 bg-gray-100 overflow-hidden">
-          <img
+          <Image
             src={product.image}
             alt={product.title}
+            width={30}
+            height={30}
             className="w-full h-full object-contain p-2"
           />
         </div>
@@ -52,10 +55,7 @@ export function CartItem({
         </div>
       </td>
 
-      <td
-        className="pt-4 pb-4"
-        style={{ verticalAlign: "top", width: "50px" }}
-      >
+      <td className="pt-4 pb-4" style={{ verticalAlign: "top", width: "50px" }}>
         <div>
           <h3 className="text-lg font-normal text-gray-900 underline mb-2">
             {product.title}
@@ -75,10 +75,7 @@ export function CartItem({
         </div>
       </td>
 
-      <td
-        className="py-4 px-2"
-        style={{ verticalAlign: "top", width: "80px" }}
-      >
+      <td className="py-4 px-2" style={{ verticalAlign: "top", width: "80px" }}>
         <div className="w-20 text-left">
           <span className="text-lg font-medium text-gray-900 inline-block min-w-[4rem]">
             ${product.price.toFixed(2)}

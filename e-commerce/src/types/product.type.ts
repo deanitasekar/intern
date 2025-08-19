@@ -24,6 +24,24 @@ export interface Cart {
   products_update?: Product[];
 }
 
+export interface WishlistItem {
+  productId: number;
+}
+
+export interface Wishlist {
+  id: number;
+  userId: number;
+  date: string;
+  products: WishlistItem[];
+  products_update?: Product[];
+}
+
+export interface AddToWishlistRequest {
+  userId: number;
+  date: string;
+  products: WishlistItem[];
+}
+
 export interface CreateProductRequest {
   title: string;
   price: number;

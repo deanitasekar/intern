@@ -8,14 +8,14 @@ interface Position {
 interface SpotlightCardProps extends React.PropsWithChildren {
   className?: string;
   spotlightColor?: `rgba(${number}, ${number}, ${number}, ${number})`;
-  rounded?: boolean; // New prop to control rounded corners
+  rounded?: boolean;
 }
 
 const SpotlightCard: React.FC<SpotlightCardProps> = ({
   children,
   className = "",
   spotlightColor = "rgba(255, 255, 255, 0.25)",
-  rounded = true // Default to true for backward compatibility
+  rounded = true,
 }) => {
   const divRef = useRef<HTMLDivElement>(null);
   const [isFocused, setIsFocused] = useState<boolean>(false);
@@ -24,7 +24,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({
 
   const handleMouseMove: React.MouseEventHandler<HTMLDivElement> = (e) => {
     if (!divRef.current || isFocused) return;
-    
+
     const rect = divRef.current.getBoundingClientRect();
     setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
   };

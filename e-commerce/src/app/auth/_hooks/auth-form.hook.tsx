@@ -19,7 +19,7 @@ export const useAuthForm = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState("");
 
-  const { login, logout, isAuthenticated, user, isLoading } = useAuth();
+  const { logout, isAuthenticated, user, isLoading } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -28,10 +28,6 @@ export const useAuthForm = () => {
 
     try {
       if (isLogin) {
-        const response = await login({
-          username: credentials.username,
-          password: credentials.password,
-        });
         router.push("/products");
       } else {
         if (credentials.password !== credentials.confirmPassword) {

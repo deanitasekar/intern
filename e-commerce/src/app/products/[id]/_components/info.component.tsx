@@ -5,15 +5,9 @@ import { Button } from "@/components/button.component";
 import { Typography } from "@/components/typography.component";
 import { useAuth } from "@/hooks/use-auth.hook";
 import { useCart } from "@/hooks/use-cart.hook";
-import {
-  BarChart3,
-  ChevronLeft,
-  ChevronRight,
-  Heart,
-  LogIn,
-  Mail,
-  ShoppingCart,
-} from "lucide-react";
+import { useWishlist } from "@/hooks/use-wishlist";
+import { ChevronLeft, ChevronRight, Heart, LogIn } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -64,16 +58,19 @@ export function ProductIdInfo({ product }: ProductIdInfoProps) {
     text: string;
   } | null>(null);
 
+  const { addToCart, isLoading: isAddingToCart } = useCart();
+
   const {
-    addToCart,
-    isLoading: isAddingToCart,
-    isInCart,
-    getCartItem,
-  } = useCart();
+    isInWishlist,
+    toggleWishlist,
+    isLoading: isWishlistLoading,
+  } = useWishlist();
+
   const { isAuthenticated, user } = useAuth();
   const router = useRouter();
 
   const images = Array(4).fill(product.image);
+  const inWishlist = isInWishlist(product.id);
 
   const handlePrevious = () => {
     setCurrentImageIndex((prev) => (prev > 0 ? prev - 1 : images.length - 1));
@@ -111,10 +108,22 @@ export function ProductIdInfo({ product }: ProductIdInfoProps) {
 
     try {
       addToCart(product, quantity);
-
       setQuantity(1);
     } catch (error) {
       console.error("Failed to add to cart:", error);
+    }
+  };
+
+  const handleWishlistToggle = async () => {
+    if (!isAuthenticated || !user) {
+      router.push("/auth");
+      return;
+    }
+
+    try {
+      toggleWishlist(product);
+    } catch (error) {
+      console.error("Failed to toggle wishlist:", error);
     }
   };
 
@@ -138,6 +147,18 @@ export function ProductIdInfo({ product }: ProductIdInfoProps) {
           />
         </div>
 
+        {message && (
+          <div
+            className={`mb-4 p-4 rounded-lg ${
+              message.type === "success"
+                ? "bg-green-50 border border-green-200 text-green-800"
+                : "bg-red-50 border border-red-200 text-red-800"
+            }`}
+          >
+            {message.text}
+          </div>
+        )}
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
           <div className="space-y-4">
             <div
@@ -160,9 +181,11 @@ export function ProductIdInfo({ product }: ProductIdInfoProps) {
 
               <div className="w-full h-full p-8 flex items-center justify-center">
                 {!imageError ? (
-                  <img
+                  <Image
                     src={images[currentImageIndex]}
                     alt={product.title}
+                    width={400}
+                    height={200}
                     className="max-w-full max-h-full object-contain"
                     onError={() => setImageError(true)}
                   />
@@ -188,9 +211,11 @@ export function ProductIdInfo({ product }: ProductIdInfoProps) {
                   style={{ width: "90px", height: "90px" }}
                 >
                   <div className="w-full h-full p-2 flex items-center justify-center">
-                    <img
+                    <Image
                       src={img}
                       alt={`${product.title} view ${index + 1}`}
+                      width={40}
+                      height={40}
                       className="max-w-full max-h-full object-contain"
                     />
                   </div>
@@ -250,7 +275,7 @@ export function ProductIdInfo({ product }: ProductIdInfoProps) {
                     >
                       login
                     </button>{" "}
-                    to add items to your cart
+                    to add items to your cart or wishlist
                   </p>
                 </div>
               </div>
@@ -281,7 +306,6 @@ export function ProductIdInfo({ product }: ProductIdInfoProps) {
                 </div>
               </div>
 
-              {/* Add to Cart button - below quantity */}
               {isAuthenticated ? (
                 <Button
                   onClick={handleAddToCart}
@@ -307,15 +331,33 @@ export function ProductIdInfo({ product }: ProductIdInfoProps) {
                 </Button>
               )}
 
-              {/* Action buttons - with filled icons and #828282 color */}
               <div className="flex items-center space-x-8 pt-2">
                 <button
-                  className="flex items-center hover:opacity-80 transition-opacity"
-                  style={{ color: "#828282" }}
+                  onClick={() => {
+                    handleWishlistToggle();
+                  }}
+                  disabled={isWishlistLoading}
+                  className={`flex items-center transition-all duration-200 ${
+                    inWishlist
+                      ? "text-red-500 hover:text-red-600"
+                      : "text-gray-500 hover:text-red-500"
+                  } ${
+                    isWishlistLoading
+                      ? "opacity-50 cursor-not-allowed"
+                      : "hover:opacity-80"
+                  }`}
                 >
-                  <Heart className="h-5 w-5 mr-2" fill="currentColor" />
+                  <Heart
+                    className={`h-5 w-5 mr-2 transition-all duration-200 ${
+                      inWishlist ? "fill-current" : ""
+                    } ${isWishlistLoading ? "animate-pulse" : ""}`}
+                  />
                   <span className="text-sm font-medium uppercase tracking-wide">
-                    Add to Wish List
+                    {isWishlistLoading
+                      ? "Updating..."
+                      : inWishlist
+                      ? "Remove from Wishlist"
+                      : "Add to Wishlist"}
                   </span>
                 </button>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronDown, ChevronUp, Edit } from "lucide-react";
+import Image from "next/image";
 
 type CheckoutStep = "shipping" | "review" | "success";
 
@@ -66,9 +67,11 @@ export function CheckoutSummary({
                 {cart.map((item) => (
                   <div key={item.id} className="flex space-x-3">
                     <div className="w-16 h-16 bg-white rounded flex-shrink-0 p-2">
-                      <img
+                      <Image
                         src={item.image}
                         alt={item.title}
+                        width={16}
+                        height={16}
                         className="w-full h-full object-contain"
                       />
                     </div>

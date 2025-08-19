@@ -31,7 +31,6 @@ export default function AuthMain() {
     toggleAuthMode,
   } = useAuthForm();
 
-  // Handle mouse movement for parallax effect
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const centerX = rect.width / 2;
@@ -39,14 +38,12 @@ export default function AuthMain() {
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
 
-    // Calculate offset from center (reduced intensity for subtle effect)
-    const offsetX = ((mouseX - centerX) / centerX) * 8; // Max 8px movement
-    const offsetY = ((mouseY - centerY) / centerY) * 6; // Max 6px movement
+    const offsetX = ((mouseX - centerX) / centerX) * 8;
+    const offsetY = ((mouseY - centerY) / centerY) * 6;
 
     setMousePosition({ x: offsetX, y: offsetY });
   };
 
-  // Handle scroll for additional parallax
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
@@ -56,19 +53,16 @@ export default function AuthMain() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Calculate combined transform
   const getLogoTransform = () => {
-    const scrollOffset = scrollY * 0.1; // Very subtle scroll parallax
+    const scrollOffset = scrollY * 0.1;
     return `translate(${mousePosition.x}px, ${
       mousePosition.y - scrollOffset
     }px)`;
   };
 
-  // Authenticated user layout
   if (isAuthenticated && user) {
     return (
       <div className="min-h-screen flex">
-        {/* Left side - Hero Image (Full width, outside container) */}
         <div
           className="hidden lg:flex lg:w-1/2 relative"
           style={{
@@ -99,7 +93,6 @@ export default function AuthMain() {
           </div>
         </div>
 
-        {/* Right side - Authenticated Content (Inside container) */}
         <div className="w-full lg:w-1/2 min-h-screen flex items-center justify-center">
           <div className="container-lg mx-auto w-full flex items-center justify-center px-6 mt-10 sm:px-6 lg:px-8">
             <AuthenticatedView user={user} router={router} logout={logout} />
@@ -109,10 +102,8 @@ export default function AuthMain() {
     );
   }
 
-  // Login/Signup layout
   return (
     <div className="min-h-screen flex">
-      {/* Left side - Hero Image (Full width, outside container) */}
       <div
         className="hidden lg:flex lg:w-1/2 relative"
         style={{
@@ -143,7 +134,6 @@ export default function AuthMain() {
         </div>
       </div>
 
-      {/* Right side - Authentication Form (Inside container) */}
       <div className="w-full lg:w-1/2 bg-gray-50 min-h-screen flex items-center justify-center">
         <div className="container-lg mx-auto w-full flex items-center justify-center px-6 mt-10 sm:px-6 lg:px-8">
           <SignInForm

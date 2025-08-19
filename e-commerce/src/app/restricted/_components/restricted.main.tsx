@@ -10,30 +10,18 @@ import {
   CardTitle,
 } from "@/components/card.component";
 import { useAuth } from "@/hooks/use-auth.hook";
-import {
-  Loader2,
-  Lock,
-  LogIn,
-  ShieldAlert,
-} from "lucide-react";
+import { Loader2, LogIn, ShieldAlert } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
 
 export default function RestrictedMain() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isLoading } = useAuth();
   const redirectUrl = searchParams.get("redirect") || "/";
-
-  const [pageInfo, setPageInfo] = useState({
-    title: "Restricted Access",
-    description: "This page requires authentication",
-    icon: <Lock className="h-8 w-8" />,
-  });
 
   const handleLoginRedirect = () => {
     const loginUrl = `/auth?redirect=${encodeURIComponent(redirectUrl)}`;
-    console.log("🔄 Redirecting to login:", loginUrl);
+    console.log("Redirecting to login:", loginUrl);
     router.push(loginUrl);
   };
 

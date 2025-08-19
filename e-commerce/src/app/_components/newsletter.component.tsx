@@ -29,7 +29,7 @@ export function Newsletter() {
                 variant="p"
                 className="text-gray-600 leading-relaxed text-sm lg:text-base max-w-2xl"
               >
-                We'll email you a voucher worth £10 off your first order over
+                We&apos;ll email you a voucher worth £10 off your first order over
                 £50. By subscribing you agree to our Terms & Conditions and
                 Privacy & Cookies Policy.
               </Typography>

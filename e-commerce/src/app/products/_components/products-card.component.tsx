@@ -1,6 +1,7 @@
 "use client";
 
 import { Typography } from "@/components/typography.component";
+import Image from "next/image";
 import { useState } from "react";
 
 const StarIcon = ({
@@ -102,9 +103,11 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
       >
         {product.image ? (
           <>
-            <img
+            <Image
               src={product.image}
               alt={product.name}
+              width={400}
+              height={400}
               className={`w-full h-full object-contain transition-opacity duration-300 ${
                 imageLoaded ? "opacity-100" : "opacity-0"
               }`}

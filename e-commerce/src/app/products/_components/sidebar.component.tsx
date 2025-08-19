@@ -3,8 +3,9 @@
 import { Button } from "@/components/button.component";
 import { Typography } from "@/components/typography.component";
 import { useAuth } from "@/hooks/use-auth.hook";
-import { useCart } from "@/hooks/use-cart.hook";
+import { useWishlist } from "@/hooks/use-wishlist";
 import { ChevronDown, Heart, Lock, X } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface SidebarProps {
@@ -27,13 +28,24 @@ export function Sidebar({
   });
 
   const { isAuthenticated, user } = useAuth();
-  const { getTotalItems } = useCart();
+  const { getTotalItems: getWishlistTotalItems } = useWishlist();
+  const router = useRouter();
+
+  const totalWishlistItems = getWishlistTotalItems();
 
   const toggleSection = (section: string) => {
     setExpandedSections((prev) => ({
       ...prev,
       [section]: !prev[section as keyof typeof prev],
     }));
+  };
+
+  const handleWishlistNavigation = () => {
+    if (!isAuthenticated) {
+      router.push("/auth");
+    } else {
+      router.push("/wishlist");
+    }
   };
 
   const SectionHeader = ({
@@ -47,7 +59,10 @@ export function Sidebar({
       onClick={() => toggleSection(section)}
       className="flex items-center justify-between w-full py-3 text-left border-b border-gray-200"
     >
-      <Typography variant="h6" className="font-light text-[15px] text-gray-800 ml-2 ">
+      <Typography
+        variant="h6"
+        className="font-light text-[15px] text-gray-800 ml-2 "
+      >
         {title}
       </Typography>
       <ChevronDown
@@ -309,19 +324,36 @@ export function Sidebar({
 
       <div>
         <Typography variant="h6" className="mb-3 font-medium text-gray-900">
-          My Wish List
+          My Wishlist
           {!isAuthenticated && (
             <Lock className="inline h-4 w-4 ml-1 text-gray-400" />
           )}
         </Typography>
 
         {isAuthenticated ? (
-          <Typography
-            variant="small"
-            className="text-gray-500 text-sm font-light"
-          >
-            You have no items in your wish list.
-          </Typography>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <Typography
+                variant="small"
+                className="text-gray-600 text-sm font-light"
+              >
+                {totalWishlistItems > 0
+                  ? `${totalWishlistItems} ${
+                      totalWishlistItems === 1 ? "item" : "items"
+                    } saved`
+                  : "No items in wishlist"}
+              </Typography>
+              {totalWishlistItems > 0}
+            </div>
+
+            <Button
+              size="sm"
+              onClick={handleWishlistNavigation}
+              className="w-full text-white font-medium bg-[#7DB800] hover:bg-[#6BA700] flex items-center justify-center gap-2"
+            >
+              View Wishlist
+            </Button>
+          </div>
         ) : (
           <div className="bg-gray-50 p-3 rounded-lg border text-center">
             <Heart className="h-6 w-6 text-gray-400 mx-auto mb-2" />
@@ -332,7 +364,7 @@ export function Sidebar({
               size="sm"
               variant="outline"
               className="w-full"
-              onClick={() => (window.location.href = "/auth")}
+              onClick={handleWishlistNavigation}
             >
               Login
             </Button>

@@ -186,8 +186,7 @@ export function SignInForm({
                 htmlFor="password"
                 className="text-sm font-medium text-gray-700"
               >
-                Password{" "}
-                {!isLogin && <span className="text-red-500">*</span>}
+                Password {!isLogin && <span className="text-red-500">*</span>}
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -198,9 +197,7 @@ export function SignInForm({
                   required
                   value={credentials.password}
                   onChange={handleInputChange}
-                  placeholder={
-                    !isLogin ? "Password" : "Enter your password"
-                  }
+                  placeholder={!isLogin ? "Password" : "Enter your password"}
                   className="pl-10 pr-12 h-12 border-gray-300 focus:border-[#7DB800] focus:ring-[#7DB800]/20"
                 />
                 <button
@@ -239,9 +236,7 @@ export function SignInForm({
                   />
                   <button
                     type="button"
-                    onClick={() =>
-                      setShowConfirmPassword(!showConfirmPassword)
-                    }
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                   >
                     {showConfirmPassword ? (
@@ -308,9 +303,7 @@ export function SignInForm({
 
           <div className="text-center">
             <p className="text-sm text-gray-600">
-              {isLogin
-                ? "Don't have an account?"
-                : "Already have an account?"}{" "}
+              {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
               <button
                 onClick={toggleAuthMode}
                 className="font-medium text-[#7DB800] hover:text-[#6BA700] transition-colors"
@@ -324,8 +317,8 @@ export function SignInForm({
 
       <div className="mt-8 text-center">
         <p className="text-xs text-gray-500">
-          By {isLogin ? "signing in" : "creating an account"}, you agree to
-          our Terms of Service and Privacy Policy
+          By {isLogin ? "signing in" : "creating an account"}, you agree to our
+          Terms of Service and Privacy Policy
         </p>
       </div>
     </div>

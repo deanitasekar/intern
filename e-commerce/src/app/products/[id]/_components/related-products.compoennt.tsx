@@ -16,7 +16,8 @@ export function RelatedProducts({
   category,
   currentProductId,
 }: RelatedProductsProps) {
-  const { products: categoryProducts, isLoading: categoryLoading } = useProductsByCategory(category);
+  const { products: categoryProducts, isLoading: categoryLoading } =
+    useProductsByCategory(category);
   const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -25,21 +26,19 @@ export function RelatedProducts({
 
     const fetchRelatedProducts = async () => {
       try {
-        // Filter products dari category, exclude current product, ambil 4 pertama
         const filteredIds = categoryProducts
-          .filter(p => p.id !== currentProductId)
+          .filter((p) => p.id !== currentProductId)
           .slice(0, 4)
-          .map(p => p.id);
+          .map((p) => p.id);
 
-        // Fetch setiap product berdasarkan ID
-        const productPromises = filteredIds.map(id => 
+        const productPromises = filteredIds.map((id) =>
           productService.getProduct(id)
         );
 
         const fetchedProducts = await Promise.all(productPromises);
         setRelatedProducts(fetchedProducts);
       } catch (error) {
-        console.error('Error fetching related products:', error);
+        console.error("Error fetching related products:", error);
       } finally {
         setIsLoading(false);
       }

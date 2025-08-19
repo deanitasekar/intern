@@ -19,24 +19,24 @@ class AuthService {
 
       if (response.data.token) {
         localStorage.setItem(`auth_token`, response.data.token);
-        
-        const userResponse = await apiClient.get('/users/1', {
+
+        const userResponse = await apiClient.get("/users/1", {
           headers: {
-            Authorization: `Bearer ${response.data.token}`
-          }
+            Authorization: `Bearer ${response.data.token}`,
+          },
         });
-        
+
         localStorage.setItem(`user_data`, JSON.stringify(userResponse.data));
-        
+
         return {
           token: response.data.token,
-          user: userResponse.data
+          user: userResponse.data,
         };
       } else {
-        throw new Error('No token received');
+        throw new Error("No token received");
       }
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error("Login failed:", error);
       throw error;
     }
   }

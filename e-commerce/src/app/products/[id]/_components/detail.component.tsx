@@ -4,15 +4,21 @@ import { Typography } from "@/components/typography.component";
 import { Plus, X } from "lucide-react";
 import { useState } from "react";
 
-const StarIcon = ({ className = "h-4 w-4", filled = false }: { className?: string; filled?: boolean }) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    width="24" 
-    height="24" 
-    viewBox="0 0 24 24" 
+const StarIcon = ({
+  className = "h-4 w-4",
+  filled = false,
+}: {
+  className?: string;
+  filled?: boolean;
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
     className={className}
   >
-    <path 
+    <path
       fill={filled ? "currentColor" : "none"}
       stroke={filled ? "none" : "currentColor"}
       strokeWidth={filled ? "0" : "1"}
@@ -42,7 +48,7 @@ const reviewsData: ReviewItem[] = [
     id: "1",
     title: "Customer Reviews",
     content:
-      "As an ocean lifeguard, I've used several types of lower grade binos in the past and eventually just gave up on using binos all together because they would always have issues.",
+      "As an ocean lifeguard, I&apos;ve used several types of lower grade binos in the past and eventually just gave up on using binos all together because they would always have issues.",
     rating: 3,
     author: "Gala",
     date: "3/25/19",

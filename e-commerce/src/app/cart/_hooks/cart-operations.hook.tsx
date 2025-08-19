@@ -10,12 +10,10 @@ interface CartManagerOptions {
 export function useCartOperations(options: CartManagerOptions = {}) {
   const { taxRate = 0.11, defaultShippingRate = 5.0 } = options;
   const router = useRouter();
-  
-  // Cart operations state
+
   const [isUpdating, setIsUpdating] = useState(false);
   const [shippingRate, setShippingRate] = useState(defaultShippingRate);
-  
-  // Base cart functionality
+
   const {
     cart,
     isLoading,
@@ -26,13 +24,11 @@ export function useCartOperations(options: CartManagerOptions = {}) {
     clearCart,
   } = useCart();
 
-  // Calculations
   const subtotal = getTotalPrice();
   const tax = subtotal * taxRate;
   const total = subtotal + tax + shippingRate;
   const totalItems = getTotalItems();
 
-  // Cart Operations
   const handleUpdateQuantity = async (
     productId: number,
     newQuantity: number
@@ -40,12 +36,8 @@ export function useCartOperations(options: CartManagerOptions = {}) {
     setIsUpdating(true);
     try {
       updateQuantity(productId, newQuantity);
-      console.log(
-        `Updated quantity for product ${productId} to ${newQuantity}`
-      );
     } catch (error) {
       console.error("Error updating quantity:", error);
-      alert("Failed to update quantity. Please try again.");
     } finally {
       setIsUpdating(false);
     }
@@ -56,10 +48,8 @@ export function useCartOperations(options: CartManagerOptions = {}) {
       setIsUpdating(true);
       try {
         removeFromCart(productId);
-        console.log(`Removed product ${productId} from cart`);
       } catch (error) {
         console.error("Error removing item:", error);
-        alert("Failed to remove item. Please try again.");
       } finally {
         setIsUpdating(false);
       }
@@ -71,31 +61,25 @@ export function useCartOperations(options: CartManagerOptions = {}) {
       setIsUpdating(true);
       try {
         clearCart();
-        console.log("Cart cleared successfully");
       } catch (error) {
         console.error("Error clearing cart:", error);
-        alert("Failed to clear cart. Please try again.");
       } finally {
         setIsUpdating(false);
       }
     }
   };
 
-  // Shipping and calculations
   const handleShippingChange = (rate: number) => {
     setShippingRate(rate);
     console.log(`Shipping rate updated to: $${rate.toFixed(2)}`);
   };
 
-  // Cart Actions
   const handleApplyDiscount = (code: string) => {
     console.log("Applying discount code:", code);
-    // TODO: Implement discount logic
   };
 
   const handleUpdateCart = () => {
     console.log("Cart state refreshed");
-    // TODO: Implement cart refresh logic
   };
 
   const handleCheckout = () => {
@@ -107,7 +91,6 @@ export function useCartOperations(options: CartManagerOptions = {}) {
     router.push("/products");
   };
 
-  // Helper for remove item that finds product title
   const removeItem = (productId: number) => {
     const product = cart.find((item: any) => item.id === productId);
     if (product) {
@@ -116,28 +99,19 @@ export function useCartOperations(options: CartManagerOptions = {}) {
   };
 
   return {
-    // Cart data
     cart,
     isLoading,
     isUpdating,
     totalItems,
-    
-    // Calculations
     subtotal,
     tax,
     shippingRate,
     total,
-    
-    // Cart operations
     handleUpdateQuantity,
     handleRemoveItem,
     handleClearCart,
     removeItem,
-    
-    // Calculations handlers
     handleShippingChange,
-    
-    // Cart actions
     handleApplyDiscount,
     handleUpdateCart,
     handleCheckout,
